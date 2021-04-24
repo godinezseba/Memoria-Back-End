@@ -1,3 +1,5 @@
+from flask_restx import Resource, reqparse
+
 from model import api
 from model.Product import ProductModel
 from schema.Product import ProductDAO

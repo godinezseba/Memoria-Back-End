@@ -2,7 +2,6 @@ import csv
 import time
 
 from flask import Flask
-from flask_restx import Resource, fields, reqparse
 from flask_cors import CORS
 
 app = Flask(__name__)
