@@ -17,3 +17,9 @@ This solution starter was initially created at the United Nations Human Rights O
 ## License
 
 This solution starter is made available under the [Apache 2 License](LICENSE).
+
+## Ejecución
+
+`sudo docker build . -t cir-api-server`
+
+`sudo docker run -p 8080:8080 cir-api-server`

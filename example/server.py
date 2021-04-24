@@ -3,8 +3,11 @@ import time
 
 from flask import Flask
 from flask_restx import Api, Resource, fields, reqparse
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
 api = Api(app, version='1.0', title='Cloud Impact Rating API',
     description='A protoype API system allowing the storage and retrieval of Climate Impact Rating data for products',
     prefix='/v1'
@@ -15,14 +18,14 @@ from cloudant.client import Cloudant
 # You must overwrite the values in api_access below with those from your service credential, that you created in IBM Cloud IAM for Cloudant.
 # The actual values below are to just show the format - and these are no longer valid.
 api_access = {
-  "apikey": "-OPMa01VOo5YhaHqHatlzNQiNFF1b31fqlY3hRpc720H",
-  "host": "c5abe484-83a8-407e-92f8-b3be0f8f0afe-bluemix.cloudantnosqldb.appdomain.cloud",
-  "iam_apikey_description": "Auto-generated for key 1547206e-bf1b-466e-b797-7afabfc9b29e",
-  "iam_apikey_name": "apiaccess",
+  "apikey": "zsumbYQJoRR6BuE3aGnymYn-aJ19-vNKvxlXLhEmUyX8",
+  "host": "880e7909-b0bf-4f0f-af54-529d907689bd-bluemix.cloudantnosqldb.appdomain.cloud",
+  "iam_apikey_description": "Auto-generated for key 6a9e43cf-ac67-412a-ba57-6d4186ec01cf",
+  "iam_apikey_name": "Credenciales de servicio-1",
   "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-  "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/4a35fbbd385a17dc3178b6dc66949178::serviceid:ServiceId-c6da6f0d-c24c-4d28-b15e-ea426501b8d1",
-  "url": "https://c5abe484-83a8-407e-92f8-b3be0f8f0afe-bluemix.cloudantnosqldb.appdomain.cloud",
-  "username": "c5abe484-83a8-407e-92f8-b3be0f8f0afe-bluemix"
+  "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/f3503acd3662479f95e59aefe3026dcc::serviceid:ServiceId-3d2bb378-676a-4fab-b6b6-10b55b27a69f",
+  "url": "https://880e7909-b0bf-4f0f-af54-529d907689bd-bluemix.cloudantnosqldb.appdomain.cloud",
+  "username": "880e7909-b0bf-4f0f-af54-529d907689bd-bluemix"
 }
 
 client = Cloudant.iam(
