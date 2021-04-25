@@ -24,3 +24,12 @@ db_name = 'cir-db'
 
 if not db_name in client.all_dbs():
   client.create_database(db_name)
+
+  from .Product import ProductDAO
+  print('Entre', flush=True)
+
+  try:
+    ProductDAO().import_data()
+  except Exception as e:
+    print('Error while creating dummy data!', flush=True)
+    print(e, flush=True)
