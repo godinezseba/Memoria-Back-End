@@ -1,3 +1,6 @@
+import csv
+import time
+
 from model import api
 from . import client, db_name
 
@@ -6,16 +9,10 @@ from . import client, db_name
 class ProductDAO(object):
   def __init__(self):
     self.cir_db = client[db_name]
-    # if db_name in client.all_dbs():
-    #   self.cir_db = client[db_name]
-    # else:
-    #   # Create the DB and immport the dummy data
-    #   self.cir_db = client.create_database(db_name)
-    #   self.import_data()
 
   def import_data(self):
-    print ("Importing dummy data", end = '', flush=True)
-    with open('dummy-data.txt') as csv_file:
+    print("Importing dummy data", end = '', flush=True)
+    with open('product.dummy.txt') as csv_file:
       csv_reader = csv.reader(csv_file, delimiter=',')
       line_count = 0
       for row in csv_reader:

@@ -1,6 +1,3 @@
-import csv
-import time
-
 from flask import Flask
 from flask_cors import CORS
 
@@ -8,6 +5,7 @@ app = Flask(__name__)
 CORS(app)
 
 from model import api
+from schema import *
 
 api.init_app(app)
 
