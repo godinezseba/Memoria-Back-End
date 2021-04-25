@@ -12,10 +12,7 @@ ENV PATH=/home/worker/.local/bin:$PATH
 
 COPY --chown=worker:worker ./code /app
 
-RUN echo $(ls)
-
 RUN pipenv lock -r > requirements.txt
 RUN python -m pip install -r requirements.txt
-ENV FLASK_APP=./server.py
 
 CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=8080"]
