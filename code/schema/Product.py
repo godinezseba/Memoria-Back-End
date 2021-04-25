@@ -2,13 +2,13 @@ import csv
 import time
 
 from model import api
-from . import client, db_name
+from . import client, DB_PRODUCT
 
 # A Data Access Object to handle the reading and writing of Product records to the Cloudant DB
 
 class ProductDAO(object):
   def __init__(self):
-    self.cir_db = client[db_name]
+    self.cir_db = client[DB_PRODUCT]
 
   def import_data(self):
     print("Importing dummy data", end = '', flush=True)

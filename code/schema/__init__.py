@@ -19,14 +19,20 @@ client = Cloudant.iam(
   connect=True
 )
 
-# name of the db used in the proyect
-db_name = 'cir-db'
+# name of the dbs used in the proyect
 
-if not db_name in client.all_dbs():
-  client.create_database(db_name)
+DB_PRODUCT = 'cir-db-product'
+DB_CERTIFIER = 'cir-db-certifier'
+
+
+if not DB_CERTIFIER in client.all_dbs():
+  client.create_database(DB_CERTIFIER)
+
+
+if not DB_PRODUCT in client.all_dbs():
+  client.create_database(DB_PRODUCT)
 
   from .Product import ProductDAO
-  print('Entre', flush=True)
 
   try:
     ProductDAO().import_data()

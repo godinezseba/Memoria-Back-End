@@ -1,11 +1,11 @@
 from model import api
-from . import client, db_name
+from . import client, DB_CERTIFIER
 
 # A Data Access Object to handle the reading and writing of Certifier records to the Cloudant DB
 
 class CertifierDAO(object):
   def __init__(self):
-    self.cir_db = client[db_name]
+    self.cir_db = client[DB_CERTIFIER]
 
   def list(self):
     return [x for x in self.cir_db]
