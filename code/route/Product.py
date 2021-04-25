@@ -27,10 +27,10 @@ class Product(Resource):
     else:
       return ProductDAO().list()    
 
-    @api.marshal_with(ProductModel, code=201)
-    @api.doc(body=ProductModel)
-    def post(self):
-      return ProductDAO().create(api.payload), 201
+  @api.marshal_with(ProductModel, code=201)
+  @api.doc(body=ProductModel)
+  def post(self):
+    return ProductDAO().create(api.payload), 201
 
 @product_ns.route('/<string:id>')
 class ProductWithID(Resource):
