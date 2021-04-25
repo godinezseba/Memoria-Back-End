@@ -10,6 +10,7 @@ from schema import *
 api.init_app(app)
 
 import route.Certifier
+import route.Company
 import route.Product
 
 if __name__ == '__main__':
