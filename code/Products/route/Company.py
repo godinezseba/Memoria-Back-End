@@ -1,10 +1,12 @@
 from flask_restx import Resource, reqparse
 
-from model import api
-from model.Company import CompanyModel
-from schema.Company import CompanyDAO
+from code.api import api
+from code.Products.model.Company import CompanyModel
+from code.Products.schema.Company import CompanyDAO
 
-company_ns = api.namespace('company', description='User CIR Company Operations')
+company_ns = api.namespace(
+    'company', description='User CIR Company Operations')
+
 
 @company_ns.route('')
 class Company(Resource):
@@ -17,6 +19,7 @@ class Company(Resource):
   @api.doc(body=CompanyModel)
   def post(self):
     return CompanyDAO().create(api.payload), 201
+
 
 @company_ns.route('/<string:id>')
 class CompanyWithID(Resource):

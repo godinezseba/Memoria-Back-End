@@ -1,17 +1,14 @@
 from flask import Flask
 from flask_cors import CORS
+from .api import api
+from .Products.schema import *
+from .Products.route import *
 
 app = Flask(__name__)
 CORS(app)
 
-from model import api
-from schema import *
-
 api.init_app(app)
 
-import route.Certifier
-import route.Company
-import route.Product
-
 if __name__ == '__main__':
-	app.run()
+
+  app.run()

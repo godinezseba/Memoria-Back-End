@@ -1,45 +1,47 @@
 import csv
 import time
 
-from model import api
+from code.api import api
 from . import client, DB_PRODUCT
 
 # A Data Access Object to handle the reading and writing of Product records to the Cloudant DB
+
 
 class ProductDAO(object):
   def __init__(self):
     self.cir_db = client[DB_PRODUCT]
 
   def import_data(self):
-    print("Importing dummy data", end = '', flush=True)
+    print("Importing dummy data", end='', flush=True)
     with open('product.dummy.txt') as csv_file:
       csv_reader = csv.reader(csv_file, delimiter=',')
       line_count = 0
       for row in csv_reader:
         if line_count > 0:
           data = {
-            'barcode_id': row[4],
-            'type': row[0],
-            'category': row[2],
-            'model': row[3],
-            'brand': row[1],
-            'rating_data': {
-              'efficiency': int(row[6]),
-              'energy': float(row[7]) + float(row[8]),
-              'CO2': float(row[13]),
-              'otherGG': float(row[14]),
-              'water': float(row[11]),
-              'plastic': float(row[9]),
-              'lifetime': float(row[10]),
-              'recyclability': int(row[12]),
-              'repairability': int(row[15])
-            }
+              'barcode_id': row[4],
+              'type': row[0],
+              'category': row[2],
+              'model': row[3],
+              'brand': row[1],
+              'rating_data': {
+                  'efficiency': int(row[6]),
+                  'energy': float(row[7]) + float(row[8]),
+                  'CO2': float(row[13]),
+                  'otherGG': float(row[14]),
+                  'water': float(row[11]),
+                  'plastic': float(row[9]),
+                  'lifetime': float(row[10]),
+                  'recyclability': int(row[12]),
+                  'repairability': int(row[15])
+              }
           }
-          time.sleep(0.15)     # Have to rate limit it to less than 10 a second, due to free tier
+          # Have to rate limit it to less than 10 a second, due to free tier
+          time.sleep(0.15)
           self.create(data)
-          print(".", end = '', flush=True)
+          print(".", end='', flush=True)
         line_count += 1
-    print ("complete")
+    print("complete")
 
   def list(self):
     return [x for x in self.cir_db]

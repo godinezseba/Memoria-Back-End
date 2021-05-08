@@ -1,10 +1,12 @@
 from flask_restx import Resource, reqparse
 
-from model import api
-from model.Certifier import CertifierModel
-from schema.Certifier import CertifierDAO
+from code.api import api
+from code.Products.model.Certifier import CertifierModel
+from code.Products.schema.Certifier import CertifierDAO
 
-certifier_ns = api.namespace('certifier', description='User CIR Certifier Operations')
+certifier_ns = api.namespace(
+    'certifier', description='User CIR Certifier Operations')
+
 
 @certifier_ns.route('')
 class Certifier(Resource):
@@ -17,6 +19,7 @@ class Certifier(Resource):
   @api.doc(body=CertifierModel)
   def post(self):
     return CertifierDAO().create(api.payload), 201
+
 
 @certifier_ns.route('/<string:id>')
 class CertifierWithID(Resource):
