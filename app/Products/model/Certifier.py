@@ -1,6 +1,6 @@
 from flask_restx import fields
 
-from code.api import api
+from app.api import api
 
 CertifierModel = api.model('Certifier', {
     'id': fields.String(readonly=True, description='The unique company registration identifier'),

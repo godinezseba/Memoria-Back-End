@@ -1,8 +1,8 @@
 from flask_restx import Resource, reqparse
 
-from code.api import api
-from code.Products.model.Company import CompanyModel
-from code.Products.schema.Company import CompanyDAO
+from app.api import api
+from app.Products.model.Company import CompanyModel
+from app.Products.schema.Company import CompanyDAO
 
 company_ns = api.namespace(
     'company', description='User CIR Company Operations')

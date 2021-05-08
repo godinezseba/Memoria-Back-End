@@ -1,6 +1,6 @@
 from flask_restx import fields
 
-from code.api import api
+from app.api import api
 from .Rating import RatingModel
 
 ProductModel = api.model('Product', {

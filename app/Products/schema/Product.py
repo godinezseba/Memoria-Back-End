@@ -1,7 +1,7 @@
 import csv
 import time
 
-from code.api import api
+from app.api import api
 from . import client, DB_PRODUCT
 
 # A Data Access Object to handle the reading and writing of Product records to the Cloudant DB

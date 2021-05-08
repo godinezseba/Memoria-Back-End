@@ -2,7 +2,7 @@ FROM python:3.6
 
 RUN pip install --upgrade pip
 
-WORKDIR /code
+WORKDIR /app
 RUN useradd -m worker
 RUN chown worker:worker .
 USER worker
@@ -10,7 +10,7 @@ USER worker
 RUN pip install --upgrade --user pipenv
 ENV PATH=/home/worker/.local/bin:$PATH
 
-COPY --chown=worker:worker ./code /code
+COPY --chown=worker:worker ./app /app
 
 RUN pipenv lock -r > requirements.txt
 RUN python -m pip install -r requirements.txt

@@ -1,6 +1,6 @@
 from flask_restx import fields
 
-from code.api import api
+from app.api import api
 
 RatingModel = api.model('Rating', {
     'efficiency': fields.Integer(required=False, description='The efficiency-in-use rating (0-9, where 0 is best) of this item'),

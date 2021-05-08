@@ -1,4 +1,4 @@
-from code.api import api
+from app.api import api
 from . import client, DB_CERTIFIER
 
 # A Data Access Object to handle the reading and writing of Certifier records to the Cloudant DB

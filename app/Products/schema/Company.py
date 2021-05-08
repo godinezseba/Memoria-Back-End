@@ -1,4 +1,4 @@
-from code.api import api
+from app.api import api
 from . import client, DB_COMPANY
 
 # A Data Access Object to handle the reading and writing of Company records to the Cloudant DB

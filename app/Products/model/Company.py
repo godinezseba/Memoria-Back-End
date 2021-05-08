@@ -1,6 +1,6 @@
 from flask_restx import fields
 
-from code.api import api
+from app.api import api
 from .Certificate import CertificateModel
 
 CompanyModel = api.model('Company', {

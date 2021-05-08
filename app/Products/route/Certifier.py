@@ -1,8 +1,8 @@
-from flask_restx import Resource, reqparse
+from flask_restx import Resource
 
-from code.api import api
-from code.Products.model.Certifier import CertifierModel
-from code.Products.schema.Certifier import CertifierDAO
+from app.api import api
+from app.Products.model.Certifier import CertifierModel
+from app.Products.schema.Certifier import CertifierDAO
 
 certifier_ns = api.namespace(
     'certifier', description='User CIR Certifier Operations')
