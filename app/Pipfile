@@ -8,7 +8,7 @@ flask = "*"
 cloudant = "*"
 flask-restx = "*"
 flask-cors = "*"
-flask-jwt-extended= "*"
+requests = "2.25.1"
 
 [dev-packages]
 

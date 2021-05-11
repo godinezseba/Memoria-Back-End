@@ -1,17 +1,13 @@
+from flask import request
 from flask_restx import Resource, reqparse
 
 from app.api import api
 from app.Products.model.Product import ProductModel
 from app.Products.schema.Product import ProductDAO
+from app.Users.midleware import check_token
 
 product_ns = api.namespace(
     'product', description='User CIR Product Operations')
-
-# Handlers for the actual API urls
-
-# In a more production orientated version, you might well split these endpoints into
-# those for a consumer (which is really just "look up by barcode"), and those that
-# allow manufacturers to publish their product data.
 
 
 @product_ns.route('')
@@ -19,6 +15,7 @@ class Product(Resource):
   @api.marshal_with(ProductModel)
   @api.doc('List products')
   @api.doc(params={'barcode_id': 'The barcode ID of this product (optional)'})
+  @check_token
   def get(self):
     # Currently we support either a full list, or query by barcode_id.
     parser = reqparse.RequestParser()
