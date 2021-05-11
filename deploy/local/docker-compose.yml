@@ -15,6 +15,9 @@ services:
       - DB_API_KEY=${DB_API_KEY}
       - DB_USERNAME=${DB_USERNAME}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - USER_NAME=${USER_NAME}
+      - USER_EMAIL=${USER_EMAIL}
+      - USER_PASSWORD=${USER_PASSWORD}
     networks:
       - energy
 
