@@ -1,10 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 
-from os import environ
-
 from .api import api
-from .Products.schema import *
 from .Users.route import *
 from .Products.route import *
 

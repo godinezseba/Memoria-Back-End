@@ -2,8 +2,8 @@ from flask import request
 from flask_restx import Resource
 
 from app.api import api
-from app.Users.schema.UserAppID import get_information
 from app.Users.midleware import check_token
+from app.Users.model.User import UserModel
 
 user_ns = api.namespace(
     'user', description='Users operations')
@@ -11,14 +11,8 @@ user_ns = api.namespace(
 
 @user_ns.route('')
 class User(Resource):
-  # @api.doc('List products')
-  # @api.doc(params={'barcode_id': 'The barcode ID of this product (optional)'})
+  @api.marshal_with(UserModel)
+  @api.doc('Get current user information (if token is provided)')
   @check_token
   def get(self):
-    token = request.token
-    return get_information(token)
-
-  @check_token
-  def post(self):
-    print(api.payload, flush=True)
-    print(request.user['credentials']['companies'], flush=True)
+    return request.user_data

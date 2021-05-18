@@ -1,4 +1,3 @@
-from flask import request
 from flask_restx import Resource, reqparse
 
 from app.api import api
@@ -15,7 +14,6 @@ class Product(Resource):
   @api.marshal_with(ProductModel)
   @api.doc('List products')
   @api.doc(params={'barcode_id': 'The barcode ID of this product (optional)'})
-  @check_token
   def get(self):
     # Currently we support either a full list, or query by barcode_id.
     parser = reqparse.RequestParser()
