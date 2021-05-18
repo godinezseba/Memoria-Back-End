@@ -18,7 +18,7 @@ class Company(Resource):
 
   @api.marshal_with(CompanyModel, code=201)
   @api.doc(body=CompanyModel)
-  @check_token
+  @check_token(check_admin=True)
   def post(self):
     return CompanyDAO().create(api.payload), 201
 
@@ -32,6 +32,6 @@ class CompanyWithID(Resource):
 
   @api.marshal_with(CompanyModel)
   @api.doc(params={'id': 'The unique ID of this company'})
-  @check_token
+  @check_token(check_admin=True)
   def delete(self, id):
     return CompanyDAO().delete(id)

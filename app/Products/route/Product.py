@@ -39,5 +39,6 @@ class ProductWithID(Resource):
 
   @api.marshal_with(ProductModel)
   @api.doc(params={'id': 'The unique ID of this product'})
+  @check_token(check_admin=True)
   def delete(self, id):
     return ProductDAO().delete(id)

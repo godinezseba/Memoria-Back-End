@@ -13,6 +13,6 @@ user_ns = api.namespace(
 class User(Resource):
   @api.marshal_with(UserModel)
   @api.doc('Get current user information (if token is provided)')
-  @check_token
+  @check_token()
   def get(self):
     return request.user_data

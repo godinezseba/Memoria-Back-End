@@ -3,6 +3,7 @@ from flask_restx import Resource
 from app.api import api
 from app.Products.model.Certifier import CertifierModel
 from app.Products.schema.Certifier import CertifierDAO
+from app.Users.midleware import check_token
 
 certifier_ns = api.namespace(
     'certifier', description='User CIR Certifier Operations')
@@ -17,6 +18,7 @@ class Certifier(Resource):
 
   @api.marshal_with(CertifierModel, code=201)
   @api.doc(body=CertifierModel)
+  @check_token(check_admin=True)
   def post(self):
     return CertifierDAO().create(api.payload), 201
 
@@ -30,5 +32,6 @@ class CertifierWithID(Resource):
 
   @api.marshal_with(CertifierModel)
   @api.doc(params={'id': 'The unique ID of this certifier'})
+  @check_token(check_admin=True)
   def delete(self, id):
     return CertifierDAO().delete(id)
