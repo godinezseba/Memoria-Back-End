@@ -26,11 +26,9 @@ class UserDAO(object):
   # this method must be called after the user is created in
   # firebase, becase the firebase uid is used as id
   def create(self, data):
-    try:
-      data['_id'] = data['firebaseId']
-      my_document = self.cir_db.create_document(data)
-    except KeyError:
-      api.abort(404, "User {} already registered".format(id))
+    data['_id'] = data['firebaseId']
+    my_document = self.cir_db.create_document(data)
+
     return my_document
 
   def get(self, id):

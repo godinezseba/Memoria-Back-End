@@ -10,5 +10,5 @@ UserModel = api.model('User', {
     'isAdmin': fields.Boolean(description='A condition to know if the user has all the access'),
     'companyType': fields.String(description='The type of company where this user works'),
     'companyId': fields.String(description='The company where this user works'),
-    'editableCompanies': fields.List(fields.Integer(description='Companies that can be edited by the user')),
+    'editableCompanies': fields.List(fields.String(description='Companies that can be edited by the user')),
 })
