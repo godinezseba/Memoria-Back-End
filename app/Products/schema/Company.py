@@ -1,7 +1,8 @@
-from model import api
+from app.api import api
 from . import client, DB_COMPANY
 
 # A Data Access Object to handle the reading and writing of Company records to the Cloudant DB
+
 
 class CompanyDAO(object):
   def __init__(self):
@@ -35,4 +36,3 @@ class CompanyDAO(object):
     except KeyError:
       api.abort(404, "Company {} not registered".format(id))
     return
-    

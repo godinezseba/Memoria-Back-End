@@ -1,10 +1,10 @@
 from flask_restx import fields
 
-from . import api
+from app.api import api
 from .Rating import RatingModel
 
 ProductModel = api.model('Product', {
-    'id': fields.String(readonly=True, description='The unique product registration identifier'),
+    '_id': fields.String(readonly=True, description='The unique product registration identifier'),
     'barcode_id': fields.String(required=True, description='The barcode for this product id, in EAN-13 format'),
     'type': fields.String(required=True, description='The type of product'),
     'category': fields.String(required=True, description='The category of this product, with its type'),
