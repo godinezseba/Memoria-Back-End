@@ -1,6 +1,7 @@
 {
   "conventionalCommits.scopes": [
     "docker",
-    "login-firebase"
+    "login-firebase",
+    "company-form"
   ]
 }

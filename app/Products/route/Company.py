@@ -1,3 +1,4 @@
+from flask import request
 from flask_restx import Resource
 
 from app.api import api
@@ -7,6 +8,12 @@ from app.Users.midleware import check_token
 
 company_ns = api.namespace(
     'company', description='User CIR Company Operations')
+
+
+def add_company_info(data, user):
+  data['companyType'] = user['companyType']
+  data['companyId'] = user['companyId']
+  return data
 
 
 @company_ns.route('')
@@ -20,7 +27,14 @@ class Company(Resource):
   @api.doc(body=CompanyModel)
   @check_token(check_admin=True)
   def post(self):
-    return CompanyDAO().create(api.payload), 201
+    user = request.user_data
+    new_company = api.payload
+    # add origin info
+    new_company['actions'] = [add_company_info(
+        action, user) for action in new_company.get('actions', [])]
+    new_company['certificates'] = [add_company_info(
+        action, user) for action in new_company.get('certificates', [])]
+    return CompanyDAO().create(new_company), 201
 
 
 @company_ns.route('/<string:id>')
