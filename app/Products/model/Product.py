@@ -4,11 +4,10 @@ from app.api import api
 from .Rating import RatingModel
 
 ProductModel = api.model('Product', {
-    '_id': fields.String(readonly=True, description='The unique product registration identifier'),
-    'barcode_id': fields.String(required=True, description='The barcode for this product id, in EAN-13 format'),
-    'type': fields.String(required=True, description='The type of product'),
-    'category': fields.String(required=True, description='The category of this product, with its type'),
-    'model': fields.String(required=True, description='The model number of this product'),
-    'brand': fields.String(required=True, description='The venfor of this item'),
-    'rating_data': fields.Nested(RatingModel)
+    'id': fields.String(description='The unique product registration identifier', attribute='_id'),
+    'barCode': fields.String(required=True, description='The barcode for this product id, in EAN-13 format'),
+    'name': fields.String(required=True, description='The name of the product'),
+    'companyId': fields.String(required=True, description='An external id provided to this product'),
+    'externalId': fields.String(description='The id of the company of this product'),
+    'ratingData': fields.Nested(RatingModel)
 })
