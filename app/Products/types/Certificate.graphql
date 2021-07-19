@@ -1,0 +1,6 @@
+type Certificate {
+  name: String!
+  file: String!
+  companyType: String!
+  companyId: String!
+}

@@ -1,0 +1,6 @@
+type Rating {
+  efficiency: Int
+  energy: Int
+  CO2: Int
+  water: Int
+}

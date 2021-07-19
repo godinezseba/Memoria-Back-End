@@ -1,0 +1,8 @@
+type Product {
+  id: ID!
+  barCode: Int!
+  name: String!
+  companyId: String!
+  externalId: String
+  ratingData: Rating
+}

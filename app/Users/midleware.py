@@ -13,7 +13,7 @@ def check_token(check_admin: bool = False):
     def wrap(*args, **kwargs):
       token = request.headers.get('Authorization')
       if not token:
-        api.abort(400, "No token provided.")
+        api.abort(403)
 
       try:
         user = auth.verify_id_token(token, app=firebase_client)

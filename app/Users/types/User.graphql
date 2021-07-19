@@ -1,0 +1,11 @@
+type User {
+  id: ID!
+  name: String!
+  lastName: String
+  email: String!
+  firebaseId: String!
+  isAdmin: Boolean
+  companyType: String!
+  companyId: ID!
+  editableCompanies: [ID]
+}

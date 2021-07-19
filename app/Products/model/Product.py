@@ -11,3 +11,15 @@ ProductModel = api.model('Product', {
     'externalId': fields.String(description='The id of the company of this product'),
     'ratingData': fields.Nested(RatingModel)
 })
+
+# GraphQL schema
+ProductSchema = """
+  type Product {
+    id: Int!
+    barCode: Int!
+    name: String!
+    companyId: String!
+    externalId: String
+    rating: Rating
+  } 
+"""

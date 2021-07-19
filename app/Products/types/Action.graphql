@@ -1,0 +1,13 @@
+type Action {
+  """
+  this is a test
+  """
+  name: String!
+  """
+  this is other test
+  """
+  file: String!
+  description: String!
+  companyType: String!
+  companyId: String!
+}
