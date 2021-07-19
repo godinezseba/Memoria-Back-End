@@ -17,7 +17,6 @@ class ProductDAO(object):
   def get(self, id):
     try:
       my_document = self.cir_db[id]
-      my_document['id'] = my_document['barcode_id']
     except KeyError:
       api.abort(404, 'Product {} not registered'.format(id))
     return my_document
@@ -27,7 +26,7 @@ class ProductDAO(object):
     # index of some such search ability
     try:
       my_document = self.cir_db[barcode_id]
-      my_document['id'] = my_document['barcode_id']
+      my_document['id'] = my_document['barCode']
     except KeyError:
       api.abort(404, 'Product {} not registered'.format(id))
     return my_document

@@ -103,7 +103,8 @@ class ProductWithID(Resource):
   @api.marshal_with(ProductModel)
   @api.doc(params={'id': 'The unique ID of this product'})
   def get(self, id):
-    return ProductDAO().get(id)
+    print(id, flush=True)
+    return ProductDAO().get("123456789")
 
   @api.marshal_with(ProductModel)
   @api.doc(params={'id': 'The unique ID of this product'})
