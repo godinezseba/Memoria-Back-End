@@ -1,4 +1,4 @@
-type Query {
+queries = '''
   companies: [Company]
   company(id: String!): Company
 
@@ -7,4 +7,4 @@ type Query {
   """
   products: [Product]
   product(id: String!): Product
-}
+'''
