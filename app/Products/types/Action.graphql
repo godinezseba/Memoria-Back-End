@@ -1,13 +1,25 @@
 type Action {
   """
-  this is a test
+  A short name that describe the action
   """
   name: String!
   """
-  this is other test
+  The file in base64
   """
   file: String!
   description: String!
   companyType: String!
   companyId: String!
+}
+
+input ActionInput {
+  """
+  A short name that describe the action
+  """
+  name: String!
+  """
+  The file in base64
+  """
+  file: String!
+  description: String!
 }

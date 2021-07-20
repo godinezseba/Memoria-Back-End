@@ -4,3 +4,9 @@ type Rating {
   CO2: Int
   water: Int
 }
+
+input RatingInput {
+  CO2: Int
+  water: Int
+  forest: String
+}

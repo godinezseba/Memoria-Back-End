@@ -16,9 +16,10 @@ user_ns = api.namespace(
 @user_ns.route('')
 class User(Resource):
   @api.marshal_with(UserModel)
-  @api.doc('Get current user information (if token is provided)')
+  @api.doc('Deprecated: Get current user information (if token is provided)')
   @check_token()
   def get(self):
+    # Deprecated
     return request.user_data
 
   @api.marshal_with(UserModel)

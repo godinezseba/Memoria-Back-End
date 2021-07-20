@@ -20,6 +20,7 @@ class Product(Resource):
   @api.doc('List products')
   @api.doc(params={'barcode_id': 'The barcode ID of this product (optional)'})
   def get(self):
+    # DEPRECATED
     # Currently we support either a full list, or query by barcode_id.
     parser = reqparse.RequestParser()
     parser.add_argument('barcode_id', required=False, location='args')
@@ -33,13 +34,14 @@ class Product(Resource):
   @api.doc(body=ProductModel)
   @check_token()
   def post(self):
+    # Deprecated
     actual_user = request.user_data
     new_data = api.payload
 
     # avoid anyone can add new data
     if (not actual_user.get('isAdmin', False)
-            and not new_data.get('company', '') in actual_user.get('editableCompanies', [])):
-      api.abort(403)
+            and not new_data.get('companyId', '') in actual_user.get('editableCompanies', [])):
+      api.abort(403, 'No tienes permiso para agregar datos a esta empresa')
 
     # read the file
     try:
@@ -103,6 +105,7 @@ class ProductWithID(Resource):
   @api.marshal_with(ProductModel)
   @api.doc(params={'id': 'The unique ID of this product'})
   def get(self, id):
+    # DEPRECATED
     print(id, flush=True)
     return ProductDAO().get("123456789")
 

@@ -21,12 +21,14 @@ class Company(Resource):
   @api.marshal_with(CompanyModel)
   @api.doc('List companies')
   def get(self):
+    # Deprecated
     return CompanyDAO().list()
 
   @api.marshal_with(CompanyModel, code=201)
   @api.doc(body=CompanyModel)
   @check_token(check_admin=True)
   def post(self):
+    # Deprecated
     user = request.user_data
     new_company = api.payload
     # add origin info
@@ -42,6 +44,7 @@ class CompanyWithID(Resource):
   @api.marshal_with(CompanyModel)
   @api.doc(params={'id': 'The unique ID of this company'})
   def get(self, id):
+    # Deprecated
     return CompanyDAO().get(id)
 
   @api.marshal_with(CompanyModel)

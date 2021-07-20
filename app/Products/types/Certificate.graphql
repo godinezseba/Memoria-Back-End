@@ -4,3 +4,14 @@ type Certificate {
   companyType: String!
   companyId: String!
 }
+
+input CertificateInput {
+  """
+  A short name that describe the action
+  """
+  name: String!
+  """
+  The file in base64
+  """
+  file: String!
+}

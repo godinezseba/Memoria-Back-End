@@ -6,19 +6,29 @@ from Users import loaded_schema as users_loaded_schema
 from Products import queries as products_queries
 from Users import queries as users_queries
 
+from Products import mutations as products_mutations
+
 from Products import resolvers as products_resolvers
 from Users import resolvers as users_resolvers
 
 queries = f"""
+  scalar JSON
   type Query {{
     {products_queries}
     {users_queries}
   }}
 """
 
+mutations = f"""
+  type Mutation {{
+    {products_mutations}
+  }}
+"""
+
 executable_schema = make_executable_schema(
     [
         queries,
+        mutations,
         products_loaded_schema,
         users_loaded_schema,
     ],
