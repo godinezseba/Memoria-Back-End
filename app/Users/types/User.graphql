@@ -1,20 +1,67 @@
 type User {
+  """
+  The unique user registration identifier
+  """
   id: ID!
+  """
+  The name of the user
+  """
   name: String!
+  """
+  The last name of the user
+  """
   lastName: String
+  """
+  The email of the user
+  """
   email: String!
+  """
+  The ID that save Firebase for this user (its the same of id)
+  """
   firebaseId: String!
+  """
+  A condition to know if the user has all the access
+  """
   isAdmin: Boolean
+  """
+  The type of company where this user works
+  """
   companyType: String!
+  """
+  The company id where this user works
+  """
   companyId: ID!
+  """
+  Companies that can be edited by the user
+  this is not consider if the user is admin
+  """
   editableCompanies: [ID]
 }
 
 input UserInput {
+  """
+  The name of the user
+  """
   name: String!
+  """
+  The last name of the user
+  """
   lastName: String
+  """
+  The email of the user
+  """
   email: String!
+  """
+  The type of company where this user works
+  """
   companyType: String!
+  """
+  The company id where this user works
+  """
   companyId: ID!
+  """
+  Companies that can be edited by the user
+  this is not consider if the user is admin
+  """
   editableCompanies: [ID]
 }

@@ -1,20 +1,65 @@
 type Company {
+  """
+  The unique company registration identifier
+  """
   id: ID!
+  """
+  The name of the company
+  """
   name: String!
+  """
+  The main country of the company
+  """
   country: String
+  """
+  A short description of the company
+  """
   description: String
+  """
+  The logo of the company
+  """ 
   picture: String
+  """
+  List of certificates that accredits the information of the company and its products
+  """
   certificates: [Certificate]
+  """
+  List of actions that make the company to reduce their footprints
+  """
   actions: [Action]
+  """
+  Object with the footprints and the label
+  """
   rating: Rating
 }
 
 input CompanyInput {
+  """
+  The name of the company
+  """
   name: String!
+  """
+  The main country of the company
+  """
   country: String
+  """
+  A short description of the company
+  """
   description: String
+  """
+  The logo of the company
+  """ 
   picture: String
+  """
+  List of certificates that accredits the information of the company and its products
+  """
   certificates: [CertificateInput]
+  """
+  List of actions that make the company to reduce their footprints
+  """
   actions: [ActionInput]
+  """
+  Object with the footprints
+  """
   rating: RatingInput
 }

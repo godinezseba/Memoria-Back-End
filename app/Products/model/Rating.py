@@ -12,13 +12,3 @@ RatingModel = api.model('Rating', {
     # 'recyclability': fields.Integer(description='The recyclability rating (0-9, where 0 is best) of this item'),
     # 'repairability': fields.Integer(description='The Right to Repair rating (0-9, where 0 is best) of this item')
 })
-
-# GraphQL schema
-rating = """
-  type Rating {
-    efficiency: Int
-    energy: Int
-    CO2: Int
-    water: Int
-  }
-"""
