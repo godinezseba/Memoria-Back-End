@@ -7,6 +7,7 @@ from Products import queries as products_queries
 from Users import queries as users_queries
 
 from Products import mutations as products_mutations
+from Users import mutations as users_mutations
 
 from Products import resolvers as products_resolvers
 from Users import resolvers as users_resolvers
@@ -22,6 +23,7 @@ queries = f"""
 mutations = f"""
   type Mutation {{
     {products_mutations}
+    {users_mutations}
   }}
 """
 

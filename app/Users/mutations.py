@@ -1,3 +1,3 @@
 mutations = '''
-  createUser(values: UserInput) User
+  createUser(values: UserInput): User
 '''
