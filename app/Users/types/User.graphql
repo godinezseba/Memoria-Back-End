@@ -9,3 +9,12 @@ type User {
   companyId: ID!
   editableCompanies: [ID]
 }
+
+input UserInput {
+  name: String!
+  lastName: String
+  email: String!
+  companyType: String!
+  companyId: ID!
+  editableCompanies: [ID]
+}

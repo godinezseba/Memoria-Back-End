@@ -26,6 +26,7 @@ class User(Resource):
   @api.doc('Create new user (if admin token is provided)')
   @check_token(check_admin=True)
   def post(self):
+    # Deprecated
     # first, try create user in firebase
     try:
       new_user_data = api.payload
