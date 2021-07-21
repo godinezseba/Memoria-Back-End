@@ -28,7 +28,11 @@ def resolve_product(obj, info, id):
 
 @mutation.field('createProductsByFile')
 @check_token(check_admin=True)
-def resolve_create(obj, info, file, companyId, columns, separator=','):
+def resolve_create(obj, info, values):
+  file = values.get('file')
+  companyId = values.get('companyId')
+  columns = values.get('columns')
+  separator = values.get('separator', ',')
   # check some variables before used them
   if not companyId:
     raise Exception('Falta el identificador de la empresa')

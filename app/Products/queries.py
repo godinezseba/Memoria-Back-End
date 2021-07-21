@@ -1,4 +1,6 @@
 queries = '''
+  certifiers: [Certifier]
+
   companies: [Company]
   company(id: String!): Company
 

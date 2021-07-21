@@ -24,3 +24,22 @@ type Product {
   """
   ratingData: Rating
 }
+
+input ProductFileInput {
+  """
+  File csv/excel in base64 with the new products
+  """
+  file: String!
+  """
+  Company of the new products 
+  """
+  companyId: ID!
+  """
+  json with the name of the columns to consider
+  """
+  columns: JSON!
+  """
+  string used to separate the values in the csv
+  """
+  separator: String
+}
