@@ -4,15 +4,10 @@ from ariadne.constants import PLAYGROUND_HTML
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from .api import api
-from .Users.route import *
-from .Products.route import *
 from .schema import executable_schema
 
 app = Flask(__name__)
 CORS(app)
-
-api.init_app(app)
 
 if app.debug:
   @app.route('/v2/graphql', methods=['GET'])
