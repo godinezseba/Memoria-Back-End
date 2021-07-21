@@ -1,0 +1,41 @@
+type Certifier {
+  """
+  The unique certifier registration identifier
+  """
+  id: ID!
+  """
+  The name of the certifier
+  """
+  name: String!
+  """
+  The main country of the certifier
+  """
+  country: String
+  """
+  A short description of the certifier
+  """
+  description: String
+  """
+  The logo of the certifier
+  """ 
+  picture: String
+}
+
+input CertifierInput {
+  """
+  The name of the certifier
+  """
+  name: String!
+  """
+  The main country of the certifier
+  """
+  country: String
+  """
+  A short description of the certifier
+  """
+  description: String
+  """
+  The logo of the certifier
+  """ 
+  picture: String
+}

@@ -2,7 +2,6 @@ import time
 from os import environ
 
 from . import client, DB_USER
-from app.api import api
 
 
 class UserDAO(object):
@@ -35,5 +34,5 @@ class UserDAO(object):
     try:
       my_document = self.cir_db[id]
     except KeyError:
-      api.abort(404, "User {} not registered".format(id))
+      raise Exception(f'Usuario {id} no esta registrado')
     return my_document

@@ -1,7 +1,3 @@
-import csv
-import time
-
-from app.api import api
 from . import client, DB_PRODUCT
 
 # A Data Access Object to handle the reading and writing of Product records to the Cloudant DB
@@ -18,7 +14,7 @@ class ProductDAO(object):
     try:
       my_document = self.cir_db[id]
     except KeyError:
-      api.abort(404, 'Product {} not registered'.format(id))
+      raise Exception(f'Producto {id} no esta registrado')
     return my_document
 
   def get_by_barcode(self, barcode_id):
@@ -28,7 +24,7 @@ class ProductDAO(object):
       my_document = self.cir_db[barcode_id]
       my_document['id'] = my_document['barCode']
     except KeyError:
-      api.abort(404, 'Product {} not registered'.format(id))
+      raise Exception(f'Producto {id} no esta registrado')
     return my_document
 
   def create(self, data):
@@ -38,7 +34,7 @@ class ProductDAO(object):
       data['_id'] = str(data['barCode'])
       my_document = self.cir_db.create_document(data)
     except KeyError:
-      api.abort(404, f'Product {id} already registered')
+      raise Exception(f'Producto {id} ya esta registrado')
     return my_document
 
   def update(self, id, data):
@@ -50,5 +46,5 @@ class ProductDAO(object):
       my_document = self.cir_db[id]
       my_document.delete()
     except KeyError:
-      api.abort(404, 'Product {} not registered'.format(id))
+      raise Exception(f'Producto {id} no existe')
     return

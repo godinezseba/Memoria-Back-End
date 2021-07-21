@@ -1,0 +1,29 @@
+type Certificate {
+  """
+  The name of the file
+  """
+  name: String!
+  """
+  The file of the certificate in base64
+  """
+  file: String!
+  """
+  The type of company (company/certifier) that update this file
+  """
+  companyType: String!
+  """
+  The id of the company/certifier that create this report
+  """
+  companyId: String!
+}
+
+input CertificateInput {
+  """
+  A short name that describe the action
+  """
+  name: String!
+  """
+  The file in base64
+  """
+  file: String!
+}

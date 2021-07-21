@@ -1,0 +1,37 @@
+type Action {
+  """
+  A short name that describe the action
+  """
+  name: String!
+  """
+  The file in base64
+  """
+  file: String!
+  """
+  An extensive description of the action
+  """
+  description: String!
+  """
+  The type of company (company/certifier) that update this file
+  """
+  companyType: String!
+  """
+  The id of the company/certifier that create this report
+  """
+  companyId: String!
+}
+
+input ActionInput {
+  """
+  A short name that describe the action
+  """
+  name: String!
+  """
+  The file in base64
+  """
+  file: String!
+  """
+  An extensive description of the action
+  """
+  description: String!
+}

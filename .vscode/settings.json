@@ -3,6 +3,7 @@
     "docker",
     "login-firebase",
     "company-form",
-    "product-form"
+    "product-form",
+    "graphql"
   ]
 }

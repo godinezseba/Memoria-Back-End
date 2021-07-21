@@ -1,0 +1,45 @@
+type Rating {
+  """
+  The score of this product compare with the rest of the same category
+  """
+  categoryLabel: String
+  """
+  The glocal score of this product
+  """
+  globalLabel: String
+  """
+  The CO2 released (Kg) to produce this item (carbon footprint)
+  """
+  carbon: Int
+  """
+  The volume of water (litres) to produce this item (water footprint)
+  """
+  water: Int
+  """
+  A label that define the forest footprint of this product
+  """
+  deforestation: String
+  """
+  Other footprints or values
+  """
+  otherValues: JSON
+}
+
+input RatingInput {
+  """
+  The CO2 released (Kg) to produce this item (carbon footprint)
+  """
+  carbon: Int
+  """
+  The volume of water (litres) to produce this item (water footprint)
+  """
+  water: Int
+  """
+  A label that define the forest footprint of this product
+  """
+  deforestation: String
+  """
+  Other footprints or values
+  """
+  otherValues: JSON
+}
