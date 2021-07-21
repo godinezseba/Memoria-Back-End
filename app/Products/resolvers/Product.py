@@ -6,7 +6,6 @@ from pandas import read_csv
 
 from . import query, product, mutation
 
-from app.api import api
 from app.Products.schema.Product import ProductDAO
 from app.Users.midleware import check_token
 
