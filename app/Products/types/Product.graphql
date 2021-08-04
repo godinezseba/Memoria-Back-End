@@ -4,9 +4,13 @@ type Product {
   """
   id: ID!
   """
-  The barcode for this product id, in EAN-13 format
+  The barcode for this product id
   """
-  barCode: Int!
+  barCode: String!
+  """
+  The barcode type for this product
+  """
+  barCodeType: String!
   """
   The name of the product
   """
@@ -16,9 +20,9 @@ type Product {
   """
   companyId: String!
   """
-  An external id provided to this product
+  The category of this product
   """
-  externalId: String
+  category: String!
   """
   Object with the footprints and the label
   """

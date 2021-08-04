@@ -32,7 +32,8 @@ def resolve_create(obj, info, values):
   companyId = values.get('companyId')
   columns = values.get('columns')
   separator = values.get('separator', ',')
-  otherColumns = values.get('otherColumns')
+  otherColumns = values.get('otherColumns', [])
+
   # check some variables before used them
   if not companyId:
     raise Exception('Falta el identificador de la empresa')
@@ -70,10 +71,12 @@ def resolve_create(obj, info, values):
   try:
     new_values = {
         columns.get('name'): 'name',
+        columns.get('category'): 'category',
         columns.get('barCode'): 'barCode',
-        columns.get('externalId'): 'externalId',
+        columns.get('barCodeType'): 'barCodeType',
         columns.get('CO2'): 'CO2',
         columns.get('water'): 'water',
+        columns.get('forest'): 'deforestation',
     }
     file_decoded.rename(columns=new_values, inplace=True)
   except Exception as e:
@@ -81,14 +84,14 @@ def resolve_create(obj, info, values):
     raise Exception('Faltan columnas en el formulario')
 
   # extract the id of the company to be place in the products data
-  new_values_created = []
-  for _, row in file_decoded.iterrows():
-    new_product = row.to_dict()
-    new_product['companyId'] = companyId
-    new_product['ratingData'] = {
-        'CO2': new_product.pop('CO2'),
-        'water': new_product.pop('water'),
-    }
-    new_values_created.append(ProductDAO().create(new_product))
+  # new_values_created = []
+  # for _, row in file_decoded.iterrows():
+  #   new_product = row.to_dict()
+  #   new_product['companyId'] = companyId
+  #   new_product['ratingData'] = {
+  #       'CO2': new_product.pop('CO2'),
+  #       'water': new_product.pop('water'),
+  #   }
+  #   new_values_created.append(ProductDAO().create(new_product))
 
   return True
