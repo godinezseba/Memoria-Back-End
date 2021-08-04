@@ -22,7 +22,7 @@ type Product {
   """
   Object with the footprints and the label
   """
-  ratingData: Rating
+  ratingData: Rating!
 }
 
 input ProductFileInput {
@@ -30,6 +30,10 @@ input ProductFileInput {
   File csv/excel in base64 with the new products
   """
   file: String!
+  """
+  string used to separate the values in the csv
+  """
+  separator: String
   """
   Company of the new products 
   """
@@ -39,7 +43,9 @@ input ProductFileInput {
   """
   columns: JSON!
   """
-  string used to separate the values in the csv
+  json with the name of the columns to consider
+  this columns are not used in the label system
+  but could be use in the future
   """
-  separator: String
+  otherColumns: JSON!
 }

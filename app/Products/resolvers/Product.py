@@ -32,6 +32,7 @@ def resolve_create(obj, info, values):
   companyId = values.get('companyId')
   columns = values.get('columns')
   separator = values.get('separator', ',')
+  otherColumns = values.get('otherColumns')
   # check some variables before used them
   if not companyId:
     raise Exception('Falta el identificador de la empresa')
