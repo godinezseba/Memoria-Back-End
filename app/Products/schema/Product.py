@@ -22,19 +22,15 @@ class ProductDAO(object):
     # index of some such search ability
     try:
       my_document = self.cir_db[barcode_id]
-      my_document['id'] = my_document['barCode']
     except KeyError:
-      raise Exception(f'Producto {id} no esta registrado')
+      raise Exception(f'Producto {barcode_id} no esta registrado')
     return my_document
 
   def create(self, data):
-    # For now, we'll set the id to be the same as the barcode_id. For production systems, we would
-    # probably want these seperate, and to implement indexed searching by barcode_id for GET.
     try:
-      data['_id'] = str(data['barCode'])
       my_document = self.cir_db.create_document(data)
     except KeyError:
-      raise Exception(f'Producto {id} ya esta registrado')
+      raise Exception(f'Producto {data["barCode"]} ya esta registrado')
     return my_document
 
   def update(self, id, data):

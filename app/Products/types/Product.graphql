@@ -51,5 +51,5 @@ input ProductFileInput {
   this columns are not used in the label system
   but could be use in the future
   """
-  otherColumns: JSON!
+  otherColumns: JSON
 }
