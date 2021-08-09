@@ -1,5 +1,7 @@
 from flask import request
 
+from rq import Queue
+
 from io import BytesIO
 from base64 import b64decode
 from pandas import read_csv
@@ -10,7 +12,9 @@ from . import query, product, mutation
 from app.Products.schema.Product import ProductDAO
 from app.Users.midleware import check_token
 from app.redisClient import queue
-from app.Products.workers.createLabel import create_label
+
+from app.Products.workers.labelCategory import create_label_category
+from app.Products.workers.labelGlobal import create_label_global
 
 product.set_alias('id', '_id')
 
@@ -88,6 +92,9 @@ def resolve_create(obj, info, values):
     print(str(e), flush=True)
     raise Exception('Faltan columnas desde el formulario')
 
+  # create a set with all categories added
+  categories = set()
+
   # extract the id of the company to be place in the products data
   for _, row in file_decoded.iterrows():
     new_product = row.to_dict()
@@ -105,8 +112,12 @@ def resolve_create(obj, info, values):
     # add bar code type if not present
     if not columns.get('barCodeType'):
       new_product['barCodeType'] = 'ean13'
+    categories.add(new_product['category'])
     # ProductDAO().create(new_product)
     # time.sleep(0.15)
 
-  queue.enqueue(create_label, args=('hello', ))
+  # excecute jobs
+  category_jobs = queue.enqueue_many([Queue.prepare_data(
+      create_label_category, [category], job_id=f'job-{category}') for category in categories])
+  queue.enqueue(create_label_global, depends_on=category_jobs)
   return True

@@ -38,6 +38,9 @@ services:
       - redis
     networks:
       - energy
+    environment:
+      - DB_API_KEY=${DB_API_KEY}
+      - DB_USERNAME=${DB_USERNAME}
 
   redis:
     container_name: redis
