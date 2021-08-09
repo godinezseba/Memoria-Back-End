@@ -20,15 +20,20 @@ product.set_alias('id', '_id')
 
 
 @query.field('products')
-def resolve_products(obj, info):
-  # manage the filters here
-  products = ProductDAO().list()
+def resolve_products(obj, info, filters={}):
+  products = ProductDAO().list(filters)
   return products
 
 
 @query.field('product')
 def resolve_product(obj, info, id):
   product = ProductDAO().get(id)
+  return product
+
+
+@mutation.field('updateProduct')
+def resolve_update(obj, info, id, data):
+  product = ProductDAO().update(id, data)
   return product
 
 

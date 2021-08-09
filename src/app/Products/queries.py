@@ -7,6 +7,6 @@ queries = '''
   """
   Get a list with products, depends in the filter used
   """
-  products: [Product]
+  products(filters: ProductsFilters): [Product]
   product(id: String!): Product
 '''

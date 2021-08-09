@@ -10,11 +10,11 @@ type Rating {
   """
   The CO2 released (Kg) to produce this item (carbon footprint)
   """
-  carbon: Int
+  CO2: Float
   """
   The volume of water (litres) to produce this item (water footprint)
   """
-  water: Int
+  water: Float
   """
   A label that define the forest footprint of this product
   """
@@ -22,18 +22,18 @@ type Rating {
   """
   Other footprints or values
   """
-  otherValues: JSON
+  otherData: JSON
 }
 
 input RatingInput {
   """
   The CO2 released (Kg) to produce this item (carbon footprint)
   """
-  carbon: Int
+  CO2: Float
   """
   The volume of water (litres) to produce this item (water footprint)
   """
-  water: Int
+  water: Float
   """
   A label that define the forest footprint of this product
   """
@@ -41,5 +41,5 @@ input RatingInput {
   """
   Other footprints or values
   """
-  otherValues: JSON
+  otherData: JSON
 }
