@@ -1,4 +1,4 @@
-from ariadne import load_schema_from_path, make_executable_schema
+from ariadne import load_schema_from_path
 
 from .queries import queries
 from .mutations import mutations

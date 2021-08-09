@@ -9,6 +9,8 @@ from . import query, product, mutation
 
 from app.Products.schema.Product import ProductDAO
 from app.Users.midleware import check_token
+from app.redisClient import queue
+from app.Products.workers import create_label
 
 product.set_alias('id', '_id')
 
@@ -106,4 +108,9 @@ def resolve_create(obj, info, values):
     ProductDAO().create(new_product)
     time.sleep(0.15)
 
+  print(create_label('ok'), flush=True)
+  job = queue.enqueue('test.create_label', args=('hello', ))
+  print(job.id, job.enqueued_at, len(queue), flush=True)
+  time.sleep(2)
+  print(job.result, flush=True)
   return True

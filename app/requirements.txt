@@ -7,3 +7,5 @@ requests == 2.25.1
 firebase-admin == 5.0.0
 pandas == 1.1.5
 ariadne == 0.13.0
+redis == 3.5.3
+rq == 1.8.1

@@ -4,17 +4,21 @@ services:
     image: webapp-flask
     build:
       context: ../..
-      dockerfile: ./deploy/local/Dockerfile
+      dockerfile: ./deploy/local/Dockerfile.server
+    command: ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=8080"]
     volumes:
       - ../../app:/app
     ports:
       - '8081:8080'
+    depends_on:
+      - redis
+    networks:
+      - energy
     environment:
       - FLASK_APP=server.py
       - FLASK_ENV=development
       - DB_API_KEY=${DB_API_KEY}
       - DB_USERNAME=${DB_USERNAME}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - USER_ID=${USER_ID}
       - FIREBASE_type=${FIREBASE_type}
       - FIREBASE_project_id=${FIREBASE_project_id}
@@ -27,6 +31,40 @@ services:
       - FIREBASE_auth_provider_x509_cert_url=${FIREBASE_auth_provider_x509_cert_url}
       - FIREBASE_client_x509_cert_url=${FIREBASE_client_x509_cert_url}
 
+  worker:
+    image: webapp-flask
+    command: python worker.py
+    volumes:
+      - ../../app:/app
+    depends_on:
+      - redis
+    networks:
+      - energy
+
+  redis:
+    container_name: redis
+    image: redis:6.0
+    ports:
+      - 6379:6379
+    volumes:
+      - ../../config/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+    networks:
+      - energy
+
+  redis-dashboard:
+    image: eoranged/rq-dashboard:latest
+    build:
+      context: ../..
+      dockerfile: ./deploy/local/Dockerfile.redis
+    ports:
+      - 9181:9181
+    environment:
+      - RQ_DASHBOARD_REDIS_URL=redis://redis:6379
+      - RQ_DASHBOARD_USERNAME=rq
+      - RQ_DASHBOARD_PASSWORD=password
+    depends_on:
+      - redis
     networks:
       - energy
 

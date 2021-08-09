@@ -4,7 +4,7 @@ from ariadne.constants import PLAYGROUND_HTML
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from .schema import executable_schema
+from schema import executable_schema
 
 app = Flask(__name__)
 CORS(app)
