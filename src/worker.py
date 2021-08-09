@@ -1,7 +1,7 @@
 from redis import Redis
 from rq import Worker, Queue, Connection
 
-from redisClient import conn
+from app.redisClient import conn
 
 listen = ['default']
 

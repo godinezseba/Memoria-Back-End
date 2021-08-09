@@ -10,7 +10,7 @@ from . import query, product, mutation
 from app.Products.schema.Product import ProductDAO
 from app.Users.midleware import check_token
 from app.redisClient import queue
-from app.Products.workers import create_label
+from app.Products.workers.createLabel import create_label
 
 product.set_alias('id', '_id')
 
@@ -29,7 +29,7 @@ def resolve_product(obj, info, id):
 
 
 @mutation.field('createProductsByFile')
-@check_token(check_admin=True)
+# @check_token(check_admin=True)
 def resolve_create(obj, info, values):
   file = values.get('file')
   companyId = values.get('companyId')
@@ -41,12 +41,12 @@ def resolve_create(obj, info, values):
   if not companyId:
     raise Exception('Falta el identificador de la empresa')
 
-  actual_user = request.user_data
+  # actual_user = request.user_data
 
-  # avoid that anyone can add new data
-  if (not actual_user.get('isAdmin', False)
-          and not companyId in actual_user.get('editableCompanies', [])):
-    raise Exception('No tienes permiso para agregar datos a esta empresa')
+  # # avoid that anyone can add new data
+  # if (not actual_user.get('isAdmin', False)
+  #         and not companyId in actual_user.get('editableCompanies', [])):
+  #   raise Exception('No tienes permiso para agregar datos a esta empresa')
 
   # read the file
   try:
@@ -105,12 +105,8 @@ def resolve_create(obj, info, values):
     # add bar code type if not present
     if not columns.get('barCodeType'):
       new_product['barCodeType'] = 'ean13'
-    ProductDAO().create(new_product)
-    time.sleep(0.15)
+    # ProductDAO().create(new_product)
+    # time.sleep(0.15)
 
-  print(create_label('ok'), flush=True)
-  job = queue.enqueue('test.create_label', args=('hello', ))
-  print(job.id, job.enqueued_at, len(queue), flush=True)
-  time.sleep(2)
-  print(job.result, flush=True)
+  queue.enqueue(create_label, args=('hello', ))
   return True
