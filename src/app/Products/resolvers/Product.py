@@ -5,7 +5,6 @@ from rq import Queue
 from io import BytesIO
 from base64 import b64decode
 from pandas import read_csv
-import time
 
 from . import query, product, mutation
 
@@ -101,7 +100,7 @@ def resolve_create(obj, info, values):
   categories = set()
 
   # extract the id of the company to be place in the products data
-  for _, row in file_decoded.iterrows():
+  def map_products(row):
     new_product = row.to_dict()
     new_product['companyId'] = companyId
     new_product['ratingData'] = {
@@ -118,11 +117,19 @@ def resolve_create(obj, info, values):
     if not columns.get('barCodeType'):
       new_product['barCodeType'] = 'ean13'
     categories.add(new_product['category'])
-    # ProductDAO().create(new_product)
-    # time.sleep(0.15)
+
+  [map_products(row)
+   for _, row in file_decoded.iterrows()]  # TODO remove this line
+  # ProductDAO().create_many([map_products(row) for _, row in file_decoded.iterrows()])
 
   # excecute jobs
-  category_jobs = queue.enqueue_many([Queue.prepare_data(
-      create_label_category, [category], job_id=f'job-{category}') for category in categories])
-  queue.enqueue(create_label_global, depends_on=category_jobs)
+  # consither enqueue_many in the future
+  # by the moment doesn't support depends_on
+  # category_jobs = queue.enqueue_many([Queue.prepare_data(
+  #     create_label_category, [category]) for category in categories])
+  jobs = list()
+  for category in categories:
+    jobs.append(
+        queue.enqueue(create_label_category, args=[category], depends_on=jobs))
+  queue.enqueue(create_label_global, depends_on=jobs)
   return True
