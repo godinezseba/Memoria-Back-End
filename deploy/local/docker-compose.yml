@@ -34,6 +34,8 @@ services:
   worker:
     image: webapp-flask
     command: python worker.py
+    volumes:
+      - ../../src:/src
     depends_on:
       - redis
     networks:
