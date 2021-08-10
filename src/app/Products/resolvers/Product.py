@@ -1,7 +1,5 @@
 from flask import request
 
-from rq import Queue
-
 from io import BytesIO
 from base64 import b64decode
 from pandas import read_csv
@@ -10,8 +8,8 @@ from . import query, product, mutation
 
 from app.Products.schema.Product import ProductDAO
 from app.Users.midleware import check_token
-from app.redisClient import queue
 
+from app.redisClient import queue
 from app.Products.workers.labelCategory import create_label_category
 from app.Products.workers.labelGlobal import create_label_global
 
@@ -37,7 +35,7 @@ def resolve_update(obj, info, id, data):
 
 
 @mutation.field('createProductsByFile')
-# @check_token(check_admin=True)
+@check_token(check_admin=True)
 def resolve_create(obj, info, values):
   file = values.get('file')
   companyId = values.get('companyId')
@@ -49,12 +47,12 @@ def resolve_create(obj, info, values):
   if not companyId:
     raise Exception('Falta el identificador de la empresa')
 
-  # actual_user = request.user_data
+  actual_user = request.user_data
 
-  # # avoid that anyone can add new data
-  # if (not actual_user.get('isAdmin', False)
-  #         and not companyId in actual_user.get('editableCompanies', [])):
-  #   raise Exception('No tienes permiso para agregar datos a esta empresa')
+  # avoid that anyone can add new data
+  if (not actual_user.get('isAdmin', False)
+          and not companyId in actual_user.get('editableCompanies', [])):
+    raise Exception('No tienes permiso para agregar datos a esta empresa')
 
   # read the file
   try:
@@ -118,15 +116,9 @@ def resolve_create(obj, info, values):
       new_product['barCodeType'] = 'ean13'
     categories.add(new_product['category'])
 
-  [map_products(row)
-   for _, row in file_decoded.iterrows()]  # TODO remove this line
-  # ProductDAO().create_many([map_products(row) for _, row in file_decoded.iterrows()])
+  ProductDAO().create_many([map_products(row)
+                            for _, row in file_decoded.iterrows()])
 
-  # excecute jobs
-  # consither enqueue_many in the future
-  # by the moment doesn't support depends_on
-  # category_jobs = queue.enqueue_many([Queue.prepare_data(
-  #     create_label_category, [category]) for category in categories])
   jobs = list()
   for category in categories:
     jobs.append(
