@@ -1,0 +1,105 @@
+type Product {
+  """
+  The unique product registration identifier
+  """
+  id: ID!
+  """
+  The barcode for this product id
+  """
+  barCode: String!
+  """
+  The barcode type for this product
+  """
+  barCodeType: String!
+  """
+  The name of the product
+  """
+  name: String!
+  """
+  The id of the company of this product
+  """
+  companyId: String!
+  """
+  The category of this product
+  """
+  category: String!
+  """
+  Object with the footprints and the label
+  """
+  ratingData: Rating!
+}
+
+input ProductFileInput {
+  """
+  File csv/excel in base64 with the new products
+  """
+  file: String!
+  """
+  string used to separate the values in the csv
+  """
+  separator: String
+  """
+  Company of the new products 
+  """
+  companyId: ID!
+  """
+  json with the name of the columns to consider
+  """
+  columns: JSON!
+  """
+  json with the name of the columns to consider
+  this columns are not used in the label system
+  but could be use in the future
+  """
+  otherColumns: JSON
+}
+
+input ProductsFilters {
+  """
+  The barcode for this product id
+  """
+  barCode: String
+  """
+  The barcode type for this product
+  """
+  barCodeType: String
+  """
+  The id of the company of this product
+  """
+  companyId: String
+  """
+  The category of this product
+  """
+  category: String
+}
+
+input ProductInput {
+  """
+  The unique product registration identifier
+  """
+  id: ID
+  """
+  The barcode for this product id
+  """
+  barCode: String
+  """
+  The barcode type for this product
+  """
+  barCodeType: String
+  """
+  The name of the product
+  """
+  name: String
+  """
+  The id of the company of this product
+  """
+  companyId: String
+  """
+  The category of this product
+  """
+  category: String
+  """
+  Object with the footprints and the label
+  """
+  ratingData: RatingInput
+}

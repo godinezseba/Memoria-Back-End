@@ -15,11 +15,3 @@ if not DB_COMPANY in client.all_dbs():
 
 if not DB_PRODUCT in client.all_dbs():
   client.create_database(DB_PRODUCT)
-
-  from .Product import ProductDAO
-
-  try:
-    ProductDAO().import_data()
-  except Exception as e:
-    print('Error while creating dummy data!', flush=True)
-    print(e, flush=True)

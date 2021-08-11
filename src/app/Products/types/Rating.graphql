@@ -4,17 +4,33 @@ type Rating {
   """
   categoryLabel: String
   """
+  The score of this product in CO2 compare with the rest of the same category
+  """
+  categoryLabelCO2: Int
+  """
+  The score of this product in water compare with the rest of the same category
+  """
+  categoryLabelwater: Int
+  """
+  The glocal score of this product in CO2
+  """
+  globalLabelCO2: Int
+  """
+  The glocal score of this product in water
+  """
+  globalLabelwater: Int
+  """
   The glocal score of this product
   """
   globalLabel: String
   """
   The CO2 released (Kg) to produce this item (carbon footprint)
   """
-  carbon: Int
+  CO2: Float
   """
   The volume of water (litres) to produce this item (water footprint)
   """
-  water: Int
+  water: Float
   """
   A label that define the forest footprint of this product
   """
@@ -22,18 +38,18 @@ type Rating {
   """
   Other footprints or values
   """
-  otherValues: JSON
+  otherData: JSON
 }
 
 input RatingInput {
   """
   The CO2 released (Kg) to produce this item (carbon footprint)
   """
-  carbon: Int
+  CO2: Float
   """
   The volume of water (litres) to produce this item (water footprint)
   """
-  water: Int
+  water: Float
   """
   A label that define the forest footprint of this product
   """
@@ -41,5 +57,5 @@ input RatingInput {
   """
   Other footprints or values
   """
-  otherValues: JSON
+  otherData: JSON
 }

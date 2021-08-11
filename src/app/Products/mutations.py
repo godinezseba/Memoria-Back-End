@@ -9,4 +9,5 @@ mutations = '''
   by the moment its only csv in base64
   """
   createProductsByFile(values: ProductFileInput!): Boolean
+  updateProduct(id: ID!, data: ProductInput): Product
 '''
