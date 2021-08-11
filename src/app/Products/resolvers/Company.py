@@ -4,6 +4,9 @@ from . import query, company, mutation
 from app.Products.schema.Company import CompanyDAO
 from app.Users.midleware import check_token
 
+from app.redisClient import queue
+from app.Products.workers.Company.label import create_label
+
 company.set_alias('id', '_id')
 
 
@@ -38,4 +41,8 @@ def resolve_create(obj, info, values):
       action, user) for action in values.get('actions', [])]
   values['certificates'] = [add_company_info(
       action, user) for action in values.get('certificates', [])]
-  return CompanyDAO().create(values)
+
+  company = CompanyDAO().create(values)
+  # add to the queue the labels creation
+  queue.enqueue(create_label)
+  return company

@@ -1,6 +1,8 @@
 from cloudant.query import Query
 import time
 
+from app.helpers.dictionary import merge_values
+
 from . import client, DB_PRODUCT
 
 # A Data Access Object to handle the reading and writing of Product records to the Cloudant DB
@@ -50,17 +52,3 @@ class ProductDAO(object):
     product = self.get(id)
     product.delete()
     return product
-
-
-def merge_values(original: dict, new_values: dict):
-  """
-with this function we keep info inside
-'rating data' and 'other data' intact
-when is not changed
-  """
-  for key, value in new_values.items():
-    if isinstance(value, dict):
-      original[key] = merge_values(original[key], value)
-    else:
-      original[key] = value
-  return original

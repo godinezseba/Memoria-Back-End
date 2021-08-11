@@ -31,6 +31,10 @@ type Company {
   Object with the footprints and the label
   """
   rating: Rating
+  """
+  Labels of this company compared with the others
+  """
+  labels: Label
 }
 
 input CompanyInput {

@@ -24,9 +24,17 @@ type Product {
   """
   category: String!
   """
-  Object with the footprints and the label
+  Object with the footprints
   """
   ratingData: Rating!
+  """
+  Global labels of this product
+  """
+  globalLabels: Label
+  """
+  Labels of this product compare with the rest of the same category
+  """
+  categoryLabels: Label
 }
 
 input ProductFileInput {
