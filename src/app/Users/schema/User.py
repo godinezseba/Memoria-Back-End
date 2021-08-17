@@ -5,6 +5,9 @@ class UserDAO(object):
   def __init__(self):
     self.cir_db = client[DB_USER]
 
+  def list(self):
+    return [x for x in self.cir_db]
+
   # this method must be called after the user is created in
   # firebase, becase the firebase uid is used as id
   def create(self, data):

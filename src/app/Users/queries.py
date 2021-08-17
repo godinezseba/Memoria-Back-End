@@ -4,4 +4,10 @@ queries = '''
   it is valid, and then find the user by the uid
   """
   me: User
+
+  """
+  Only admin users can get users information
+  """
+  users: [User]
+  user(id: ID): User
 '''
