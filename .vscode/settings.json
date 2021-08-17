@@ -4,6 +4,7 @@
     "login-firebase",
     "company-form",
     "product-form",
-    "graphql"
+    "graphql",
+    "certifier-form"
   ]
 }
