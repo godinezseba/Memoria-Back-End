@@ -10,8 +10,7 @@ from app.Products.schema.Product import ProductDAO
 from app.Users.midleware import check_token
 
 from app.redisClient import queue
-from app.Products.workers.labelCategory import create_label_category
-from app.Products.workers.labelGlobal import create_label_global
+from app.Products.workers.Product.label import create_label_category, create_label_global
 
 product.set_alias('id', '_id')
 
