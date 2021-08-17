@@ -17,6 +17,18 @@ def resolve_me(obj, info):
   return request.user_data
 
 
+@query.field('users')
+@check_token(check_admin=True)
+def resolve_users(obj, info):
+  return UserDAO().list()
+
+
+@query.field('user')
+@check_token(check_admin=True)
+def resolve_users(obj, info, id):
+  return UserDAO().get(id)
+
+
 @mutation.field('createUser')
 @check_token(check_admin=True)
 def resolve_create(obj, info, values):

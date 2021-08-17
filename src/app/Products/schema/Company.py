@@ -1,13 +1,17 @@
 from cloudant.query import Query
 import time
 
+from promise import Promise
+from promise.dataloader import DataLoader
+
 from app.helpers.dictionary import merge_values
 from . import client, DB_COMPANY
 # A Data Access Object to handle the reading and writing of Company records to the Cloudant DB
 
 
-class CompanyDAO(object):
+class CompanyDAO(DataLoader):
   def __init__(self):
+    DataLoader.__init__(self)
     self.cir_db = client[DB_COMPANY]
 
   def list(self, filters: dict = {}):
@@ -15,7 +19,10 @@ class CompanyDAO(object):
       return list(Query(self.cir_db, selector=filters).result)
     return [x for x in self.cir_db]
 
-  def get(self, id):
+  def batch_load_fn(self, keys):
+    return Promise.resolve([self.__get(id=key) for key in keys])
+
+  def __get(self, id):
     try:
       my_document = self.cir_db[id]
     except KeyError:

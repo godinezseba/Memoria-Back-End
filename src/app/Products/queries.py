@@ -2,11 +2,11 @@ queries = '''
   certifiers: [Certifier]
 
   companies: [Company]
-  company(id: String!): Company
+  company(id: ID!): Company
 
   """
   Get a list with products, depends in the filter used
   """
   products(filters: ProductsFilters): [Product]
-  product(id: String!): Product
+  product(id: ID!): Product
 '''
