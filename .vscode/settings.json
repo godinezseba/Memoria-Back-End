@@ -5,6 +5,7 @@
     "company-form",
     "product-form",
     "graphql",
-    "certifier-form"
+    "certifier-form",
+    "list"
   ]
 }

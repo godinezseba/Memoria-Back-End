@@ -20,6 +20,10 @@ type Product {
   """
   companyId: String!
   """
+  The obj, of the company
+  """
+  company: Company
+  """
   The category of this product
   """
   category: String!

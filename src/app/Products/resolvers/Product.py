@@ -7,12 +7,15 @@ from pandas import read_csv
 from . import query, product, mutation
 
 from app.Products.schema.Product import ProductDAO
+from app.Products.schema.Company import CompanyDAO
 from app.Users.midleware import check_token
 
 from app.redisClient import queue
 from app.Products.workers.Product.label import create_label_category, create_label_global
 
 product.set_alias('id', '_id')
+
+companyDAO = CompanyDAO()
 
 
 @query.field('products')
@@ -124,3 +127,10 @@ def resolve_create(obj, info, values):
         queue.enqueue(create_label_category, args=[category], depends_on=jobs))
   queue.enqueue(create_label_global, depends_on=jobs)
   return True
+
+
+@product.field('company')
+def resolve_company(obj, info):
+  if obj['companyId']:
+    company = companyDAO.load(obj['companyId']).get()
+    return company

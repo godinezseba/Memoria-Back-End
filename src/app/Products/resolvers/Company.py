@@ -9,6 +9,8 @@ from app.Products.workers.Company.label import create_label
 
 company.set_alias('id', '_id')
 
+companyDAO = CompanyDAO()
+
 
 def add_company_info(data, user):
   """
@@ -22,13 +24,13 @@ def add_company_info(data, user):
 @query.field('companies')
 def resolve_companies(obj, info):
   # manage the filters here
-  products = CompanyDAO().list()
+  products = companyDAO.list()
   return products
 
 
 @query.field('company')
 def resolve_company(obj, info, id):
-  product = CompanyDAO().get(id)
+  product = companyDAO.load(id).get()
   return product
 
 
@@ -42,7 +44,7 @@ def resolve_create(obj, info, values):
   values['certificates'] = [add_company_info(
       action, user) for action in values.get('certificates', [])]
 
-  company = CompanyDAO().create(values)
+  company = companyDAO.create(values)
   # add to the queue the labels creation
   queue.enqueue(create_label)
   return company
