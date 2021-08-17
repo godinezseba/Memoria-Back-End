@@ -11,6 +11,7 @@ from app.Products.resolvers import resolvers as products_resolvers
 from app.Users.resolvers import resolvers as users_resolvers
 
 from app.Products.resolvers.Product import *
+from app.Products.resolvers.Certifier import *
 from app.Products.resolvers.Company import *
 from app.Users.resolvers.User import *
 
