@@ -6,7 +6,7 @@ information inside it
   """
   for key, value in new_values.items():
     if isinstance(value, dict):
-      original[key] = merge_values(original[key], value)
+      original[key] = merge_values(original.get(key, dict()), value)
     else:
       original[key] = value
   return original

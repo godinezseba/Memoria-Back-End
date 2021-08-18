@@ -37,7 +37,7 @@ class CompanyDAO(DataLoader):
     return my_document
 
   def update(self, id, data):
-    product = merge_values(self.get(id), data)
+    product = merge_values(self.__get(id), data)
     product.save()
     return product
 
@@ -47,6 +47,6 @@ class CompanyDAO(DataLoader):
       time.sleep(0.15)
 
   def delete(self, id: str):
-    product = self.get(id)
+    product = self.__get(id)
     product.delete()
     return product

@@ -117,6 +117,7 @@ def resolve_create(obj, info, values):
     if not columns.get('barCodeType'):
       new_product['barCodeType'] = 'ean13'
     categories.add(new_product['category'])
+    return new_product
 
   ProductDAO().create_many([map_products(row)
                             for _, row in file_decoded.iterrows()])
