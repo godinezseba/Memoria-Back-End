@@ -83,6 +83,10 @@ input ProductsFilters {
   The category of this product
   """
   category: String
+  """
+  A list with IDs to search
+  """
+  ids: [ID]
 }
 
 input ProductInput {

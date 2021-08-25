@@ -12,10 +12,13 @@ class ProductDAO(object):
   def __init__(self):
     self.cir_db = client[DB_PRODUCT]
 
-  def list(self, filters: dict = {}):
+  def list(self, filters: dict = {}, sort: list = []):
     if len(filters.values()):
       if filters.get('barCode'):
         filters['barCode'] = int(filters['barCode'])
+      if filters.get('ids'):
+        filters['_id'] = {'$in': filters['ids']}
+        del filters['ids']
       return list(Query(self.cir_db, selector=filters).result)
     return [x for x in self.cir_db]
 
