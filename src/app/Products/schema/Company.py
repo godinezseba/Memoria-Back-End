@@ -19,7 +19,7 @@ class CompanyDAO(DataLoader):
     return [x for x in self.colection.find(filters)]
 
   def batch_load_fn(self, keys):
-    return Promise.resolve(self.list(filter={'ids': keys}))
+    return Promise.resolve(self.list(filters={'ids': keys}))
 
   def __get(self, id: str):
     my_document = self.colection.find_one({'_id': ObjectId(id)})
@@ -36,7 +36,7 @@ class CompanyDAO(DataLoader):
     return data
 
   def update(self, id, data):
-    company = merge_values(self.get(id), data)
+    company = merge_values(self.__get(id), data)
     self.colection.update_one({'_id': ObjectId(id)}, {'$set': company})
     return company
 

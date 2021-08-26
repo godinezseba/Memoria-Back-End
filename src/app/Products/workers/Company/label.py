@@ -5,7 +5,7 @@ from app.Products.schema.Company import CompanyDAO
 def create_label():
   companies = CompanyDAO().list()
   # create a dataframe
-  map_deforestation = {1: 1, 2: 3, 3: 5}
+  map_deforestation = {'1': 1, '2': 3, '3': 5}
   df = DataFrame(list(zip(
       [i['_id'] for i in companies],
       [i['rating']['CO2'] for i in companies],
@@ -19,8 +19,7 @@ def create_label():
   # the final result
   df['label'] = (df
                  .loc[:, ['labelCO2', 'labelwater', 'deforestation']]
-                 .mean(1)
-                 .astype("int"))
+                 .mean(1))
 
   mapped_companies = [{
       '_id': row['_id'],

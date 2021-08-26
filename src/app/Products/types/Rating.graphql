@@ -21,7 +21,7 @@ type Label {
   """
   The score of this product
   """
-  label: String
+  label: Float
   """
   The score of this product in CO2
   """

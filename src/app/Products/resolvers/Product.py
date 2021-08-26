@@ -3,7 +3,6 @@ from flask import request
 from io import BytesIO
 from base64 import b64decode
 from pandas import read_csv
-from json import loads
 
 from . import query, product, mutation
 
@@ -127,11 +126,9 @@ def resolve_create(obj, info, values):
   ProductDAO().create_many([map_products(row)
                             for _, row in file_decoded.iterrows()])
 
-  jobs = list()
   for category in categories:
-    jobs.append(
-        queue.enqueue(create_label_category, args=[category], depends_on=jobs))
-  queue.enqueue(create_label_global, depends_on=jobs)
+    queue.enqueue(create_label_category, args=[category])
+  queue.enqueue(create_label_global)
   return True
 
 
