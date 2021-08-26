@@ -4,7 +4,7 @@ from firebase_admin import auth
 
 from app.firebaseClient import firebase_client
 from app.Users.schema.User import UserDAO
-from app.Users.midleware import check_token
+from app.midleware import check_token
 
 from . import query, mutation, user
 

@@ -9,7 +9,7 @@ from . import query, product, mutation
 
 from app.Products.schema.Product import ProductDAO
 from app.Products.schema.Company import CompanyDAO
-from app.Users.midleware import check_token
+from app.midleware import check_token
 
 from app.redisClient import queue
 from app.Products.workers.Product.label import create_label_category, create_label_global

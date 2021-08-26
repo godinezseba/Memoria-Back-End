@@ -1,6 +1,6 @@
 from . import query, certifier, mutation
 from app.Products.schema.Certifier import CertifierDAO
-from app.Users.midleware import check_token
+from app.midleware import check_token
 
 certifier.set_alias('id', '_id')
 
