@@ -1,57 +1,51 @@
-from cloudant.query import Query
-import time
+from bson.objectid import ObjectId
 
 from app.helpers.dictionary import merge_values
-
-from . import client, DB_PRODUCT
-
-# A Data Access Object to handle the reading and writing of Product records to the Cloudant DB
+from . import mongoDB
 
 
 class ProductDAO(object):
+  # A Data Access Object to handle the reading and writing of Product records to the Cloudant DB
   def __init__(self):
-    self.cir_db = client[DB_PRODUCT]
+    self.colection = mongoDB['products']
 
   def list(self, filters: dict = {}, sort: list = []):
-    if len(filters.values()):
-      if filters.get('barCode'):
-        filters['barCode'] = int(filters['barCode'])
-      if filters.get('ids'):
-        filters['_id'] = {'$in': filters['ids']}
-        del filters['ids']
-      return list(Query(self.cir_db, selector=filters).result)
-    return [x for x in self.cir_db]
+    if filters.get('barCode'):
+      filters['barCode'] = int(filters['barCode'])
+    if filters.get('ids'):
+      filters['_id'] = {'$in': [ObjectId(id) for id in filters['ids']]}
+      del filters['ids']
+    if len(sort) == 2:
+      return [x for x in self.colection.find(filters).sort(sort[0], sort[1])]
+    return [x for x in self.colection.find(filters)]
 
   def get(self, id: str):
-    try:
-      my_document = self.cir_db[id]
-    except KeyError:
+    my_document = self.colection.find_one({'_id': ObjectId(id)})
+    if not my_document:
       raise Exception(f'Producto {id} no esta registrado')
     return my_document
 
   def create(self, data: dict):
     try:
-      my_document = self.cir_db.create_document(data)
-    except KeyError:
-      raise Exception(f'Producto {data["barCode"]} ya esta registrado')
-    return my_document
+      data['_id'] = self.colection.insert_one(data).inserted_id
+    except Exception as e:
+      print(e, flush=True)
+      raise Exception(f'Error al guardar el producto')
+    return data
 
   def create_many(self, products: list):
-    for product in products:
-      self.create(product)
-      time.sleep(0.15)
+    self.colection.insert_many(products)
 
   def update(self, id, data):
     product = merge_values(self.get(id), data)
-    product.save()
+    self.colection.update_one({'_id': ObjectId(id)}, {'$set': product})
     return product
 
   def update_many(self, products: list, id_name: str = '_id'):
     for product in products:
       self.update(product[id_name], product)
-      time.sleep(0.15)
 
   def delete(self, id: str):
     product = self.get(id)
-    product.delete()
+    self.colection.delete_one({'_id': ObjectId(id)})
     return product

@@ -3,6 +3,7 @@ from flask import request
 from io import BytesIO
 from base64 import b64decode
 from pandas import read_csv
+from json import loads
 
 from . import query, product, mutation
 
@@ -19,8 +20,12 @@ companyDAO = CompanyDAO()
 
 
 @query.field('products')
-def resolve_products(obj, info, filters={}):
-  products = ProductDAO().list(filters)
+def resolve_products(obj, info, filters={}, sort={}):
+  try:
+    sort = (sort['field'], sort['order'])
+  except:
+    sort = ()
+  products = ProductDAO().list(filters, sort)
   return products
 
 

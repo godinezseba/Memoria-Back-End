@@ -89,6 +89,11 @@ input ProductsFilters {
   ids: [ID]
 }
 
+input ProductSort {
+  field: String
+  order: Int
+}
+
 input ProductInput {
   """
   The unique product registration identifier

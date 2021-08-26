@@ -1,4 +1,7 @@
 from app.cloudantClient import client
+from app.mongoClient import mongoClient
+
+mongoDB = mongoClient.products
 
 # name of the dbs used in the proyect
 
