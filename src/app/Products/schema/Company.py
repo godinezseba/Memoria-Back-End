@@ -1,52 +1,50 @@
-from cloudant.query import Query
-import time
-
+from bson.objectid import ObjectId
 from promise import Promise
 from promise.dataloader import DataLoader
 
 from app.helpers.dictionary import merge_values
-from . import client, DB_COMPANY
-# A Data Access Object to handle the reading and writing of Company records to the Cloudant DB
+from . import mongoDB
 
 
 class CompanyDAO(DataLoader):
+  # A Data Access Object to handle the reading and writing of Company records to the Cloudant DB
   def __init__(self):
     DataLoader.__init__(self)
-    self.cir_db = client[DB_COMPANY]
+    self.colection = mongoDB['companies']
 
   def list(self, filters: dict = {}):
-    if len(filters.values()):
-      return list(Query(self.cir_db, selector=filters).result)
-    return [x for x in self.cir_db]
+    if filters.get('ids'):
+      filters['_id'] = {'$in': [ObjectId(id) for id in filters['ids']]}
+      del filters['ids']
+    return [x for x in self.colection.find(filters)]
 
   def batch_load_fn(self, keys):
-    return Promise.resolve([self.__get(id=key) for key in keys])
+    return Promise.resolve(self.list(filters={'ids': keys}))
 
-  def __get(self, id):
-    try:
-      my_document = self.cir_db[id]
-    except KeyError:
+  def __get(self, id: str):
+    my_document = self.colection.find_one({'_id': ObjectId(id)})
+    if not my_document:
       raise Exception(f'Empresa {id} no esta registrado')
     return my_document
 
   def create(self, data):
     try:
-      my_document = self.cir_db.create_document(data)
-    except KeyError:
+      data['_id'] = self.colection.insert_one(data).inserted_id
+    except Exception as e:
+      print(e, flush=True)
       raise Exception(f'Empresa {id} ya esta registrado')
-    return my_document
+    return data
 
   def update(self, id, data):
-    product = merge_values(self.__get(id), data)
-    product.save()
-    return product
+    company = merge_values(self.__get(id), data)
+    self.colection.update_one({'_id': ObjectId(id)}, {'$set': company})
+    return company
 
-  def update_many(self, products: list, id_name: str = '_id'):
-    for product in products:
-      self.update(product[id_name], product)
-      time.sleep(0.15)
+  def update_many(self, companies: list, id_name: str = '_id'):
+    for company in companies:
+      self.update(company[id_name], company)
 
   def delete(self, id: str):
-    product = self.__get(id)
-    product.delete()
-    return product
+    company = self.__get(id)
+    self.colection.delete_one({'_id': ObjectId(id)})
+    return company

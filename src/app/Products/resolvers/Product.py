@@ -8,7 +8,7 @@ from . import query, product, mutation
 
 from app.Products.schema.Product import ProductDAO
 from app.Products.schema.Company import CompanyDAO
-from app.Users.midleware import check_token
+from app.midleware import check_token
 
 from app.redisClient import queue
 from app.Products.workers.Product.label import create_label_category, create_label_global
@@ -19,8 +19,12 @@ companyDAO = CompanyDAO()
 
 
 @query.field('products')
-def resolve_products(obj, info, filters={}):
-  products = ProductDAO().list(filters)
+def resolve_products(obj, info, filters={}, sort={}):
+  try:
+    sort = (sort['field'], sort['order'])
+  except:
+    sort = ()
+  products = ProductDAO().list(filters, sort)
   return products
 
 
@@ -122,11 +126,9 @@ def resolve_create(obj, info, values):
   ProductDAO().create_many([map_products(row)
                             for _, row in file_decoded.iterrows()])
 
-  jobs = list()
   for category in categories:
-    jobs.append(
-        queue.enqueue(create_label_category, args=[category], depends_on=jobs))
-  queue.enqueue(create_label_global, depends_on=jobs)
+    queue.enqueue(create_label_category, args=[category])
+  queue.enqueue(create_label_global)
   return True
 
 

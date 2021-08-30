@@ -1,40 +1,40 @@
-from cloudant.query import Query
+from bson.objectid import ObjectId
 
-from . import client, DB_CERTIFIER
 from app.helpers.dictionary import merge_values
+from . import mongoDB
 
 # A Data Access Object to handle the reading and writing of Certifier records to the Cloudant DB
 
 
 class CertifierDAO(object):
   def __init__(self):
-    self.cir_db = client[DB_CERTIFIER]
+    self.colection = mongoDB['certifiers']
 
   def list(self, filters: dict = {}):
-    if len(filters.values()):
-      return list(Query(self.cir_db, selector=filters).result)
-    return [x for x in self.cir_db]
+    if filters.get('ids'):
+      filters['_id'] = {'$in': [ObjectId(id) for id in filters['ids']]}
+      del filters['ids']
+    return [x for x in self.colection.find(filters)]
 
   def get(self, id):
-    try:
-      my_document = self.cir_db[id]
-    except KeyError:
+    my_document = self.colection.find_one({'_id': ObjectId(id)})
+    if not my_document:
       raise Exception(f'Certificador {id} no esta registrado')
     return my_document
 
   def create(self, data):
     try:
-      my_document = self.cir_db.create_document(data)
+      data['_id'] = self.colection.insert_one(data).inserted_id
     except KeyError:
       raise Exception(f'Certificador {id} ya esta registrado')
-    return my_document
+    return data
 
   def update(self, id, data):
-    product = merge_values(self.get(id), data)
-    product.save()
-    return product
+    certifier = merge_values(self.get(id), data)
+    self.colection.update_one({'_id': ObjectId(id)}, {'$set': certifier})
+    return certifier
 
   def delete(self, id: str):
-    product = self.get(id)
-    product.delete()
-    return product
+    certifier = self.__get(id)
+    self.colection.delete_one({'_id': ObjectId(id)})
+    return certifier

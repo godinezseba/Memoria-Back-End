@@ -18,8 +18,7 @@ def create_labels(products: list, label_name: str):
   # the final result
   df['label'] = (df
                  .loc[:, ['labelCO2', 'labelwater', 'deforestation']]
-                 .mean(1)
-                 .astype("int"))
+                 .mean(1))
 
   mapped_products = [{
       '_id': row['_id'],

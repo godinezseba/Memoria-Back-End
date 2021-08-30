@@ -30,6 +30,10 @@ services:
       - FIREBASE_token_uri=${FIREBASE_token_uri}
       - FIREBASE_auth_provider_x509_cert_url=${FIREBASE_auth_provider_x509_cert_url}
       - FIREBASE_client_x509_cert_url=${FIREBASE_client_x509_cert_url}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_DB=${MONGO_DB}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASS}
 
   worker:
     image: webapp-flask
@@ -43,6 +47,10 @@ services:
     environment:
       - DB_API_KEY=${DB_API_KEY}
       - DB_USERNAME=${DB_USERNAME}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_DB=${MONGO_DB}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASS}
 
   redis:
     container_name: redis

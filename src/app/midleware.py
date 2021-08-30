@@ -3,7 +3,7 @@ from functools import wraps
 from firebase_admin import auth
 
 from app.firebaseClient import firebase_client
-from .schema.User import UserDAO
+from app.Users.schema.User import UserDAO
 
 
 def check_token(check_admin: bool = False):

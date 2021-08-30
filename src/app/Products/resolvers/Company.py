@@ -2,7 +2,7 @@ from flask import request
 
 from . import query, company, mutation
 from app.Products.schema.Company import CompanyDAO
-from app.Users.midleware import check_token
+from app.midleware import check_token
 
 from app.redisClient import queue
 from app.Products.workers.Company.label import create_label

@@ -6,6 +6,7 @@
     "product-form",
     "graphql",
     "certifier-form",
-    "list"
+    "list",
+    "mongodb"
   ]
 }
