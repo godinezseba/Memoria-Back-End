@@ -1,8 +1,9 @@
 mutations = '''
   """
-  Only admin users can create companies
+  Only admin users can create/update companies
   """
   createCompany(values: CompanyInput!): Company
+  updateCompany(id: ID!, values: CompanyInput!): Company
 
   """
   Only admin users can create certifiers

@@ -16,8 +16,9 @@ def add_company_info(data, user):
   """
   Helper function to add extra information in the certificates
   """
-  data['companyType'] = user['companyType']
-  data['companyId'] = user['companyId']
+  if not (data.get('companyType') or data.get('companyId')):
+    data['companyType'] = user['companyType']
+    data['companyId'] = user['companyId']
   return data
 
 
@@ -45,6 +46,27 @@ def resolve_create(obj, info, values):
       action, user) for action in values.get('certificates', [])]
 
   company = companyDAO.create(values)
+  # add to the queue the labels creation
+  queue.enqueue(create_label)
+  return company
+
+
+@mutation.field('updateCompany')
+@check_token(check_admin=True)
+def resolve_create(obj, info, id, values):
+  user = request.user_data
+  # avoid that anyone can add new data
+  if (not user.get('isAdmin', False)
+          and not id in user.get('editableCompanies', [])):
+    raise Exception('No tienes permiso para agregar datos a esta empresa')
+
+  # add origin info
+  values['actions'] = [add_company_info(
+      action, user) for action in values.get('actions', [])]
+  values['certificates'] = [add_company_info(
+      action, user) for action in values.get('certificates', [])]
+
+  company = companyDAO.update(id, values)
   # add to the queue the labels creation
   queue.enqueue(create_label)
   return company

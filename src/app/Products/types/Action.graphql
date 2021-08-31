@@ -34,4 +34,12 @@ input ActionInput {
   An extensive description of the action
   """
   description: String!
+  """
+  The type of company (company/certifier) that update this file
+  """
+  companyType: String
+  """
+  The id of the company/certifier that create this report
+  """
+  companyId: String
 }
