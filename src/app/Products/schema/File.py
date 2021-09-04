@@ -6,11 +6,11 @@ from app.helpers.dictionary import merge_values
 from . import mongoDB
 
 
-class CompanyDAO(DataLoader):
-  # A Data Access Object to handle the reading and writing of Company records to the Cloudant DB
+class FileDAO(DataLoader):
+  # A Data Access Object to handle the reading and writing of File records to the Cloudant DB
   def __init__(self):
     DataLoader.__init__(self)
-    self.colection = mongoDB['companies']
+    self.colection = mongoDB['files']
 
   def list(self, filters: dict = {}):
     if filters.get('ids'):
@@ -24,7 +24,7 @@ class CompanyDAO(DataLoader):
   def get_one(self, id: str):
     my_document = self.colection.find_one({'_id': ObjectId(id)})
     if not my_document:
-      raise Exception(f'Empresa {id} no esta registrado')
+      raise Exception(f'Archivo {id} no esta registrado')
     return my_document
 
   def create(self, data):
@@ -32,19 +32,21 @@ class CompanyDAO(DataLoader):
       data['_id'] = self.colection.insert_one(data).inserted_id
     except Exception as e:
       print(e, flush=True)
-      raise Exception('Error al crear la empresa')
+      raise Exception('Error al crear el archivo')
     return data
 
-  def update(self, id, data):
-    company = merge_values(self.get_one(id), data)
-    self.colection.update_one({'_id': ObjectId(id)}, {'$set': company})
-    return company
+  def create_many(self, files: list):
+    if len(files):
+      my_ids = self.colection.insert_many(files).inserted_ids
+      return my_ids
+    return []
 
-  def update_many(self, companies: list, id_name: str = '_id'):
-    for company in companies:
-      self.update(company[id_name], company)
+  def update(self, id, data):
+    file = merge_values(self.get_one(id), data)
+    self.colection.update_one({'_id': ObjectId(id)}, {'$set': file})
+    return file
 
   def delete(self, id: str):
-    company = self.get_one(id)
+    file = self.get_one(id)
     self.colection.delete_one({'_id': ObjectId(id)})
-    return company
+    return file

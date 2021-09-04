@@ -4,6 +4,10 @@ type Action {
   """
   name: String!
   """
+  The id file of the file
+  """
+  fileId: ID!
+  """
   The file in base64
   """
   file: String!
@@ -27,9 +31,13 @@ input ActionInput {
   """
   name: String!
   """
+  The id of the file
+  """
+  fileId: ID
+  """
   The file in base64
   """
-  file: String!
+  file: String
   """
   An extensive description of the action
   """

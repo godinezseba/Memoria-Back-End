@@ -4,7 +4,11 @@ type Certificate {
   """
   name: String!
   """
-  The file of the certificate in base64
+  The id file of the file
+  """
+  fileId: ID!
+  """
+  The file in base 64
   """
   file: String!
   """
@@ -14,7 +18,7 @@ type Certificate {
   """
   The id of the company/certifier that create this report
   """
-  companyId: String!
+  companyId: ID!
 }
 
 input CertificateInput {
@@ -23,9 +27,13 @@ input CertificateInput {
   """
   name: String!
   """
+  The id of the file
+  """
+  fileId: ID
+  """
   The file in base64
   """
-  file: String!
+  file: String
   """
   The type of company (company/certifier) that update this file
   """

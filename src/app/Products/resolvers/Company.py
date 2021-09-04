@@ -1,7 +1,8 @@
 from flask import request
 
-from . import query, company, mutation
+from . import query, company, mutation, action, certificate
 from app.Products.schema.Company import CompanyDAO
+from app.Products.schema.File import FileDAO
 from app.midleware import check_token
 
 from app.redisClient import queue
@@ -10,6 +11,7 @@ from app.Products.workers.Company.label import create_label
 company.set_alias('id', '_id')
 
 companyDAO = CompanyDAO()
+fileDAO = FileDAO()
 
 
 def add_company_info(data, user):
@@ -19,6 +21,8 @@ def add_company_info(data, user):
   if not (data.get('companyType') or data.get('companyId')):
     data['companyType'] = user['companyType']
     data['companyId'] = user['companyId']
+  if data.get('file'):
+    del data['file']
   return data
 
 
@@ -31,7 +35,7 @@ def resolve_companies(obj, info):
 
 @query.field('company')
 def resolve_company(obj, info, id):
-  product = companyDAO.load(id).get()
+  product = companyDAO.get_one(id)
   return product
 
 
@@ -39,11 +43,16 @@ def resolve_company(obj, info, id):
 @check_token(check_admin=True)
 def resolve_create(obj, info, values):
   user = request.user_data
-  # add origin info
-  values['actions'] = [add_company_info(
-      action, user) for action in values.get('actions', [])]
-  values['certificates'] = [add_company_info(
-      action, user) for action in values.get('certificates', [])]
+  for key in ['actions', 'certificates']:
+    new_files = values.get(key, [])
+    if len(new_files):
+      # create file
+      new_ids = fileDAO.create_many(
+          [{'file': file['file']} for file in new_files])
+      # add file id
+      [file.update({'fileId': id}) for id, file in zip(new_ids, new_files)]
+      # add origin info and remove file
+      values[key] = [add_company_info(action, user) for action in new_files]
 
   company = companyDAO.create(values)
   # add to the queue the labels creation
@@ -59,14 +68,28 @@ def resolve_create(obj, info, id, values):
   if (not user.get('isAdmin', False)
           and not id in user.get('editableCompanies', [])):
     raise Exception('No tienes permiso para agregar datos a esta empresa')
-
-  # add origin info
-  values['actions'] = [add_company_info(
-      action, user) for action in values.get('actions', [])]
-  values['certificates'] = [add_company_info(
-      action, user) for action in values.get('certificates', [])]
+  for key in ['actions', 'certificates']:
+    files = values.get(key, [])
+    new_files = [file for file in files if not file.get('fileId')]
+    if len(new_files):
+      # create files
+      new_ids = fileDAO.create_many(
+          [{'file': file['file']} for file in new_files])
+      # update keys in values[key]
+      [file.update({'fileId': id}) for id, file in zip(new_ids, new_files)]
+      # add origin info and remove file in case
+      values[key] = [add_company_info(
+          action, user) for action in files]
 
   company = companyDAO.update(id, values)
   # add to the queue the labels creation
   queue.enqueue(create_label)
   return company
+
+
+@action.field('file')
+@certificate.field('file')
+def resolve_file(obj, info):
+  if obj['fileId']:
+    file = fileDAO.load(obj['fileId']).get()
+    return file['file']
