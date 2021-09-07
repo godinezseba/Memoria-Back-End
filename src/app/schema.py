@@ -13,6 +13,7 @@ from app.Users.resolvers import resolvers as users_resolvers
 from app.Products.resolvers.Product import *
 from app.Products.resolvers.Certifier import *
 from app.Products.resolvers.Company import *
+from app.Products.resolvers.File import *
 from app.Users.resolvers.User import *
 
 products_loaded_schema = load_schema_from_path('./app/Products/')

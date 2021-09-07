@@ -29,14 +29,14 @@ def add_company_info(data, user):
 @query.field('companies')
 def resolve_companies(obj, info):
   # manage the filters here
-  products = companyDAO.list()
-  return products
+  companies = companyDAO.list()
+  return companies
 
 
 @query.field('company')
 def resolve_company(obj, info, id):
-  product = companyDAO.get_one(id)
-  return product
+  company = companyDAO.get_one(id)
+  return company
 
 
 @mutation.field('createCompany')
