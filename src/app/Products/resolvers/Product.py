@@ -53,11 +53,11 @@ def resolve_create(obj, info, values):
   if not companyId:
     raise Exception('Falta el identificador de la empresa')
 
-  actual_user = request.user_data
+  user = request.user_data
 
   # avoid that anyone can add new data
-  if (not actual_user.get('isAdmin', False)
-          and not companyId in actual_user.get('editableCompanies', [])):
+  if (not user.get('isAdmin', False)
+          and not companyId in user.get('editableCompanies', [])):
     raise Exception('No tienes permiso para agregar datos a esta empresa')
 
   # read the file

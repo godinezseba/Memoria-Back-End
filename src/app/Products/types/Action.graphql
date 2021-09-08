@@ -4,6 +4,10 @@ type Action {
   """
   name: String!
   """
+  The id file of the file
+  """
+  fileId: ID!
+  """
   The file in base64
   """
   file: String!
@@ -27,11 +31,23 @@ input ActionInput {
   """
   name: String!
   """
+  The id of the file
+  """
+  fileId: ID
+  """
   The file in base64
   """
-  file: String!
+  file: String
   """
   An extensive description of the action
   """
   description: String!
+  """
+  The type of company (company/certifier) that update this file
+  """
+  companyType: String
+  """
+  The id of the company/certifier that create this report
+  """
+  companyId: String
 }

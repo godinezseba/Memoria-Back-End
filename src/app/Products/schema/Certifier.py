@@ -26,7 +26,7 @@ class CertifierDAO(object):
     try:
       data['_id'] = self.colection.insert_one(data).inserted_id
     except KeyError:
-      raise Exception(f'Certificador {id} ya esta registrado')
+      raise Exception(f'Error al crear la certificadora')
     return data
 
   def update(self, id, data):
@@ -35,6 +35,6 @@ class CertifierDAO(object):
     return certifier
 
   def delete(self, id: str):
-    certifier = self.__get(id)
+    certifier = self.get(id)
     self.colection.delete_one({'_id': ObjectId(id)})
     return certifier

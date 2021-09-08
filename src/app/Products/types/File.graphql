@@ -1,0 +1,10 @@
+type File {
+  """
+  The unique file registration identifier
+  """
+  id: ID!
+  """
+  The file in base64
+  """
+  file: String!
+}
