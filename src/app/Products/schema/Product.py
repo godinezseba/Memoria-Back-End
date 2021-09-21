@@ -15,6 +15,9 @@ class ProductDAO(object):
     if filters.get('ids'):
       filters['_id'] = {'$in': [ObjectId(id) for id in filters['ids']]}
       del filters['ids']
+    if filters.get('searchName'):
+      filters['name'] = {'$regex': filters['searchName']}
+      del filters['searchName']
     if len(sort) == 2:
       return [x for x in self.colection.find(filters).sort(sort[0], sort[1])]
     return [x for x in self.colection.find(filters)]

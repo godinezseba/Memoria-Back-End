@@ -84,6 +84,10 @@ input ProductsFilters {
   """
   category: String
   """
+  A search text to find a name
+  """
+  searchName: String
+  """
   A list with IDs to search
   """
   ids: [ID]
