@@ -2,6 +2,9 @@ from flask import request
 
 from firebase_admin import auth
 
+from random import choice
+from string import ascii_letters
+
 from app.firebaseClient import firebase_client
 from app.Users.schema.User import UserDAO
 from app.midleware import check_token
@@ -36,7 +39,7 @@ def resolve_create(obj, info, values):
   try:
     firebase_user = auth.create_user(
         email=values['email'],
-        password='memoria123',  # TODO generate random pasword
+        password=''.join(choice(ascii_letters) for i in range(20)),
         email_verified=True,
         app=firebase_client
     )
