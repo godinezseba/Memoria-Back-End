@@ -13,9 +13,10 @@ def create_label():
       [map_deforestation[i['rating']['deforestation']] for i in companies]
   )), columns=['_id', 'CO2', 'water', 'deforestation'])
   # get the label for the footprints
-  df['labelCO2'] = qcut(df['CO2'], 5, labels=range(1, 6)).astype("int")
+  df['labelCO2'] = qcut(
+      df['CO2'], 5, labels=range(1, 6), duplicates='drop').astype("int")
   df['labelwater'] = qcut(
-      df['water'], 5, labels=range(1, 6)).astype("int")
+      df['water'], 5, labels=range(1, 6), duplicates='drop').astype("int")
   # the final result
   df['label'] = (df
                  .loc[:, ['labelCO2', 'labelwater', 'deforestation']]
