@@ -1,5 +1,16 @@
 version: '3'
 services:
+  # redis:
+  #   container_name: redis
+  #   image: redis:6.0
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - ../../config/redis.conf:/redis.conf
+  #   command: [ "redis-server", "/redis.conf" ]
+  #   networks:
+  #     - energy
+
   energy-label:
     image: webapp-flask
     build:
@@ -10,8 +21,8 @@ services:
       - ../../src:/src
     ports:
       - '8081:8080'
-    depends_on:
-      - redis
+    # depends_on:
+    #   - redis
     networks:
       - energy
     environment:
@@ -30,38 +41,23 @@ services:
       - FIREBASE_token_uri=${FIREBASE_token_uri}
       - FIREBASE_auth_provider_x509_cert_url=${FIREBASE_auth_provider_x509_cert_url}
       - FIREBASE_client_x509_cert_url=${FIREBASE_client_x509_cert_url}
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_DB=${MONGO_DB}
-      - MONGO_USER=${MONGO_USER}
-      - MONGO_PASS=${MONGO_PASS}
+      - MONGO_URL=mongodb+srv://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}/${MONGO_DB}?retryWrites=true&w=majority
+      - REDIS_URL=redis://${REDIS_USER}:${REDIS_PASS}@${REDIS_HOST}:${REDIS_PORT}/${REDIS_DB}
 
   worker:
     image: webapp-flask
     command: python worker.py
     volumes:
       - ../../src:/src
-    depends_on:
-      - redis
+    # depends_on:
+    #   - redis
     networks:
       - energy
     environment:
       - DB_API_KEY=${DB_API_KEY}
       - DB_USERNAME=${DB_USERNAME}
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_DB=${MONGO_DB}
-      - MONGO_USER=${MONGO_USER}
-      - MONGO_PASS=${MONGO_PASS}
-
-  redis:
-    container_name: redis
-    image: redis:6.0
-    ports:
-      - 6379:6379
-    volumes:
-      - ../../config/redis.conf:/redis.conf
-    command: [ "redis-server", "/redis.conf" ]
-    networks:
-      - energy
+      - MONGO_URL=mongodb+srv://${MONGO_USER}:${MONGO_PASS}@${MONGO_HOST}/${MONGO_DB}?retryWrites=true&w=majority
+      - REDIS_URL=redis://${REDIS_USER}:${REDIS_PASS}@${REDIS_HOST}:${REDIS_PORT}/${REDIS_DB}
 
   redis-dashboard:
     image: eoranged/rq-dashboard:latest
@@ -71,11 +67,11 @@ services:
     ports:
       - 9181:9181
     environment:
-      - RQ_DASHBOARD_REDIS_URL=redis://redis:6379
-      - RQ_DASHBOARD_USERNAME=rq
-      - RQ_DASHBOARD_PASSWORD=password
-    depends_on:
-      - redis
+      - RQ_DASHBOARD_REDIS_URL=redis://${REDIS_USER}:${REDIS_PASS}@${REDIS_HOST}:${REDIS_PORT}/${REDIS_DB}
+      - RQ_DASHBOARD_USERNAME=${REDIS_USER}
+      - RQ_DASHBOARD_PASSWORD=${REDIS_PASS}
+    # depends_on:
+    #   - redis
     networks:
       - energy
 
