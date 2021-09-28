@@ -16,7 +16,7 @@ services:
     build:
       context: ../..
       dockerfile: ./deploy/local/Dockerfile.server
-    command: ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=8080"]
+    command: ["python", "server.py"]
     volumes:
       - ../../src:/src
     ports:
@@ -28,6 +28,7 @@ services:
     environment:
       - FLASK_APP=${FLASK_APP}
       - FLASK_ENV=${FLASK_ENV}
+      - PORT=${PORT}
       - DB_API_KEY=${DB_API_KEY}
       - DB_USERNAME=${DB_USERNAME}
       - USER_ID=${USER_ID}

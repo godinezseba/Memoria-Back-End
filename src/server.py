@@ -4,6 +4,8 @@ from ariadne.constants import PLAYGROUND_HTML
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
+from os import environ
+
 from app.schema import executable_schema
 
 app = Flask(__name__)
@@ -33,4 +35,4 @@ def graphql_server():
 
 
 if __name__ == '__main__':
-  app.run()
+  app.run(host='0.0.0.0', port=int(environ.get('PORT', 8080)))
