@@ -39,7 +39,6 @@ def resolve_create(obj, info, values):
   try:
     firebase_user = auth.create_user(
         email=values['email'],
-        password=''.join(choice(ascii_letters) for i in range(20)),
         email_verified=True,
         app=firebase_client
     )
