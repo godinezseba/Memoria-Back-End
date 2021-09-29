@@ -27,8 +27,19 @@ def add_company_info(data, user):
 
 
 @query.field('companies')
-def resolve_companies(obj, info):
-  # manage the filters here
+@check_token(raise_on_null=False)
+def resolve_companies(obj, info, onlyEditable=False):
+  if onlyEditable:
+    try:
+      user = request.user_data
+      if user.get('isAdmin'):
+        companies = companyDAO.list()
+        return companies
+      companies = companyDAO.list(
+          filters={'ids': user.get('editableCompanies', [])})
+      return companies
+    except:
+      raise Exception('Necesita permisos')
   companies = companyDAO.list()
   return companies
 

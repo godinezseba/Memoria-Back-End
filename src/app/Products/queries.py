@@ -1,7 +1,7 @@
 queries = '''
   certifiers: [Certifier]
 
-  companies: [Company]
+  companies(onlyEditable: Boolean): [Company]
   company(id: ID!): Company
 
   file(id: ID!): File

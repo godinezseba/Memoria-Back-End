@@ -1,15 +1,15 @@
 version: '3'
 services:
-  # redis:
-  #   container_name: redis
-  #   image: redis:6.0
-  #   ports:
-  #     - 6379:6379
-  #   volumes:
-  #     - ../../config/redis.conf:/redis.conf
-  #   command: [ "redis-server", "/redis.conf" ]
-  #   networks:
-  #     - energy
+  redis:
+    container_name: redis
+    image: redis:6.0
+    ports:
+      - 6379:6379
+    volumes:
+      - ../../config/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+    networks:
+      - energy
 
   energy-label:
     image: webapp-flask

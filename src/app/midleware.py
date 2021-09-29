@@ -6,14 +6,15 @@ from app.firebaseClient import firebase_client
 from app.Users.schema.User import UserDAO
 
 
-def check_token(check_admin: bool = False):
+def check_token(check_admin: bool = False, raise_on_null: bool = True):
   def inner_function(f):
     @wraps(f)
     def wrap(*args, **kwargs):
       token = request.headers.get('Authorization')
       if not token:
-        raise Exception('Necesita permisos')
-
+        if raise_on_null:
+          raise Exception('Necesita permisos')
+        return f(*args, **kwargs)
       try:
         user = auth.verify_id_token(token, app=firebase_client)
       except Exception as e:
