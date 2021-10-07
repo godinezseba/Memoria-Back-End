@@ -41,7 +41,7 @@ def resolve_update(obj, info, id, data):
 
 
 @mutation.field('createProductsByFile')
-@check_token(check_admin=True)
+@check_token()
 def resolve_create(obj, info, values):
   file = values.get('file')
   companyId = values.get('companyId')
