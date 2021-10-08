@@ -8,6 +8,5 @@ fileDAO = FileDAO()
 
 @query.field('file')
 def resolve_file(obj, info, id):
-  print("entre", flush=True)
   file = fileDAO.get_one(id)
   return file

@@ -80,6 +80,10 @@ input ProductsFilters {
   """
   companyId: String
   """
+  A list with ids of companies of this product
+  """
+  companiesId: [ID]
+  """
   The category of this product
   """
   category: String
